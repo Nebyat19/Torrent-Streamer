@@ -47,8 +47,6 @@ func main() {
 	appContext, appCancel = context.WithCancel(context.Background())
 	defer appCancel()
 
-	// Initialize logging (simplified inline version)
-	initializeLogging()
 	
 	logger.Info("=== Torrent Streamer Starting ===")
 	
@@ -688,18 +686,6 @@ func detectSubtitleLanguage(filename string) string {
 		}
 	}
 	return "und" // undefined
-}
-
-// Simplified logging functions (inline implementation)
-var logFile *os.File
-
-func initializeLogging() {
-	var err error
-	logFile, err = os.OpenFile("logs/torrent-streamer.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	if err != nil {
-		fmt.Printf("Failed to open log file: %v\n", err)
-		return
-	}
 }
 
 

@@ -33,3 +33,15 @@
 [2025-07-20 17:39:09] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
 [2025-07-20 17:39:09] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
 [2025-07-20 17:39:25] [INFO] [logger.go:190] Application startup successful
+[2025-07-20 18:01:34] [INFO] [logger.go:190] Starting stream for magnet: https://torrent-streamer-ycml.onrender.com/ (IP: 102.213.68.198)
+[2025-07-20 18:01:34] [ERROR] [logger.go:198] Error adding magnet: unexpected scheme "https"
+[2025-07-20 18:01:40] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:C30D11150EAB0BB6EBA1C7F84425DC... (IP: 102.213.68.198)
+[2025-07-20 18:01:40] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-20 18:01:40] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-20 18:01:40] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-20 18:01:40] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-20 18:06:30] [INFO] [logger.go:190] === Torrent Streamer Starting ===
+[2025-07-20 18:06:30] [INFO] [logger.go:190] Torrent client initialized successfully
+[2025-07-20 18:06:30] [INFO] [logger.go:190] Template initialized successfully
+[2025-07-20 18:06:30] [INFO] [logger.go:190] HTTP routes configured
+[2025-07-20 18:06:30] [INFO] [logger.go:190] Server starting on http://localhost:8080
