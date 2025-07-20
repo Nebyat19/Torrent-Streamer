@@ -82,7 +82,7 @@ func (l *Logger) setupLogger() {
 	}
 
 	l.file = file
-	
+
 	// Create multi-writer to write to both file and stdout
 	multiWriter := io.MultiWriter(os.Stdout, file)
 	l.logger = log.New(multiWriter, "", 0)
@@ -148,7 +148,7 @@ func (l *Logger) log(level LogLevel, format string, args ...interface{}) {
 
 	timestamp := time.Now().Format("2006-01-02 15:04:05")
 	levelName := levelNames[level]
-	
+
 	message := fmt.Sprintf(format, args...)
 	logEntry := fmt.Sprintf("[%s] [%s] [%s:%d] %s", timestamp, levelName, file, line, message)
 
@@ -206,7 +206,7 @@ func Fatal(format string, args ...interface{}) {
 func (l *Logger) Close() {
 	l.mu.Lock()
 	defer l.mu.Unlock()
-	
+
 	if l.file != nil {
 		l.file.Close()
 	}
