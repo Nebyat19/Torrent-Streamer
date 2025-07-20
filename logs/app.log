@@ -52,3 +52,14 @@
 [2025-07-20 18:16:03] [INFO] [logger.go:190] HTTP routes configured
 [2025-07-20 18:16:03] [INFO] [logger.go:190] Server starting on http://localhost:8080
 [2025-07-20 18:16:33] [INFO] [logger.go:190] Application startup successful
+[2025-07-20 18:26:00] [INFO] [logger.go:190] === Torrent Streamer Starting ===
+[2025-07-20 18:26:00] [INFO] [logger.go:190] Torrent client initialized successfully
+[2025-07-20 18:26:00] [INFO] [logger.go:190] Template initialized successfully
+[2025-07-20 18:26:00] [INFO] [logger.go:190] HTTP routes configured
+[2025-07-20 18:26:00] [INFO] [logger.go:190] Server starting on http://localhost:8080
+[2025-07-20 18:26:13] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:C30D11150EAB0BB6EBA1C7F84425DC... (IP: ::1)
+[2025-07-20 18:26:13] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-20 18:26:20] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-20 18:26:20] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-20 18:26:20] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-20 18:26:30] [INFO] [logger.go:190] Application startup successful

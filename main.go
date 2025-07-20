@@ -13,10 +13,10 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Nebyat19/Torrent-Streamer/logger"
 	"github.com/anacrolix/torrent"
 	"github.com/asticode/go-astisub"
-	"github.com/Nebyat19/Torrent-Streamer/logger"
-	
+	"github.com/google/uuid"
 )
 
 type UserSession struct {
@@ -47,16 +47,15 @@ func main() {
 	appContext, appCancel = context.WithCancel(context.Background())
 	defer appCancel()
 
-	
 	logger.Info("=== Torrent Streamer Starting ===")
-	
+
 	// Start health monitoring
 	go startHealthMonitor()
-	
+
 	// Run main application with recovery
 	restartCount := 0
 	maxRestarts := 5
-	
+
 	for restartCount <= maxRestarts {
 		func() {
 			defer func() {
@@ -69,24 +68,24 @@ func main() {
 					}
 				}
 			}()
-			
+
 			if err := runApplication(); err != nil {
 				logger.Error("Application error: %v", err)
 				restartCount++
 				time.Sleep(5 * time.Second)
 				return
 			}
-			
+
 			// If we get here, the application exited normally
 			restartCount = maxRestarts + 1 // Exit the loop
 		}()
 	}
-	
+
 	if restartCount > maxRestarts {
 		logger.Error("Maximum restart attempts (%d) exceeded. Application will exit.", maxRestarts)
 		os.Exit(1)
 	}
-	
+
 	logger.Warn("=== Torrent Streamer Shutting Down ===")
 }
 
@@ -97,32 +96,32 @@ func runApplication() error {
 			logger.Warn("Torrent client closed")
 		}
 	}()
-	
+
 	// Initialize torrent client with recovery
 	if err := initializeTorrentClient(); err != nil {
 		return fmt.Errorf("failed to initialize torrent client: %v", err)
 	}
-	
+
 	// Initialize template with recovery
 	if err := initializeTemplate(); err != nil {
 		return fmt.Errorf("failed to initialize template: %v", err)
 	}
-	
+
 	// Set up routes with recovery wrappers
 	setupRoutes()
-	
+
 	// Create subtitles directory
 	if err := os.MkdirAll("subtitles", 0755); err != nil {
 		logger.Error("Error creating subtitles directory: %v", err)
 		return err
 	}
-	
+
 	// Create logs directory
 	if err := os.MkdirAll("logs", 0755); err != nil {
 		logger.Error("Error creating logs directory: %v", err)
 		return err
 	}
-	
+
 	// Start HTTP server with recovery
 	server := &http.Server{
 		Addr:         ":8080",
@@ -130,7 +129,7 @@ func runApplication() error {
 		WriteTimeout: 30 * time.Second,
 		IdleTimeout:  60 * time.Second,
 	}
-	
+
 	// Start server in goroutine
 	go func() {
 		defer recoverFromPanic("http-server")
@@ -139,44 +138,44 @@ func runApplication() error {
 			logger.Error("Server error: %v", err)
 		}
 	}()
-	
+
 	// Start session cleanup routine
 	go func() {
 		defer recoverFromPanic("session-cleanup")
 		cleanupSessions()
 	}()
-	
+
 	// Reset restart count after successful startup
 	go func() {
 		time.Sleep(30 * time.Second)
 		logger.Info("Application startup successful")
 	}()
-	
+
 	// Wait for shutdown signal
 	waitForShutdown()
-	
+
 	// Graceful shutdown
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	
+
 	if err := server.Shutdown(ctx); err != nil {
 		logger.Error("Server shutdown error: %v", err)
 	}
-	
+
 	return nil
 }
 
 func initializeTorrentClient() error {
 	cfg := torrent.NewDefaultClientConfig()
 	cfg.DataDir = os.TempDir()
-	
+
 	var err error
 	client, err = torrent.NewClient(cfg)
 	if err != nil {
 		logger.Error("Failed to create torrent client: %v", err)
 		return err
 	}
-	
+
 	logger.Info("Torrent client initialized successfully")
 	return nil
 }
@@ -196,7 +195,7 @@ func initializeTemplate() error {
 		logger.Error("Error parsing template: %v", err)
 		return err
 	}
-	
+
 	logger.Info("Template initialized successfully")
 	return nil
 }
@@ -209,14 +208,14 @@ func setupRoutes() {
 	http.HandleFunc("/subtitle", safeHTTPHandler("subtitle", subtitleHandler))
 	http.HandleFunc("/upload-subtitle", safeHTTPHandler("upload-subtitle", uploadSubtitleHandler))
 	http.Handle("/subtitles/", http.StripPrefix("/subtitles/", http.FileServer(http.Dir("subtitles"))))
-	
+
 	logger.Info("HTTP routes configured")
 }
 
 func cleanupSessions() {
 	ticker := time.NewTicker(10 * time.Minute)
 	defer ticker.Stop()
-	
+
 	for {
 		select {
 		case <-ticker.C:
@@ -233,7 +232,7 @@ func cleanupSessions() {
 				}
 			}
 			sessionLock.Unlock()
-			
+
 			if cleaned > 0 {
 				logger.Info("Cleaned up %d inactive sessions", cleaned)
 			}
@@ -255,27 +254,43 @@ func getClientIP(r *http.Request) string {
 	return ip
 }
 
-func getSession(r *http.Request) *UserSession {
-	ip := getClientIP(r)
+func getSessionID(w http.ResponseWriter, r *http.Request) string {
+	cookie, err := r.Cookie("ts_session_id")
+	if err == nil && cookie.Value != "" {
+		return cookie.Value
+	}
+	// Generate new session ID
+	sessionID := uuid.New().String()
+	http.SetCookie(w, &http.Cookie{
+		Name:     "ts_session_id",
+		Value:    sessionID,
+		Path:     "/",
+		HttpOnly: true,
+		// Secure: true, // Uncomment if using HTTPS
+		MaxAge: 60 * 60 * 24, // 1 day
+	})
+	return sessionID
+}
+
+func getSession(w http.ResponseWriter, r *http.Request) *UserSession {
+	sessionID := getSessionID(w, r)
 	sessionLock.Lock()
 	defer sessionLock.Unlock()
-
-	if session, exists := sessions[ip]; exists {
+	if session, exists := sessions[sessionID]; exists {
 		session.LastActivity = time.Now()
 		return session
 	}
-
 	session := &UserSession{
 		LastActivity: time.Now(),
 		StatusMsg:    "Ready to stream",
 	}
-	sessions[ip] = session
-	logger.Debug("Created new session for IP: %s", ip)
+	sessions[sessionID] = session
+	logger.Debug("Created new session for sessionID: %s", sessionID)
 	return session
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	session := getSession(r)
+	session := getSession(w, r)
 	data := struct {
 		Status      string
 		VideoURL    string
@@ -336,9 +351,9 @@ func streamHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	session := getSession(r)
+	session := getSession(w, r)
 	clientIP := getClientIP(r)
-	
+
 	// Truncate magnet link for logging
 	magnetPreview := magnetLink
 	if len(magnetPreview) > 50 {
@@ -348,7 +363,7 @@ func streamHandler(w http.ResponseWriter, r *http.Request) {
 
 	go func() {
 		defer recoverFromPanic("torrent-processing")
-		
+
 		sessionLock.Lock()
 		defer sessionLock.Unlock()
 
@@ -378,7 +393,7 @@ func streamHandler(w http.ResponseWriter, r *http.Request) {
 		session.StatusMsg = "Finding video file and subtitles..."
 		videoFound := false
 		subtitleCount := 0
-		
+
 		for _, f := range t.Files() {
 			ext := strings.ToLower(filepath.Ext(f.Path()))
 
@@ -422,11 +437,11 @@ func videoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sessionLock.Lock()
-	session, exists := sessions[ip]
+	session, exists := sessions[getSessionID(w, r)]
 	sessionLock.Unlock()
 
 	if !exists || session.File == nil {
-		logger.Warn("Video request for non-existent session: %s", ip)
+		logger.Warn("Video request for non-existent session: %s", getSessionID(w, r))
 		http.Error(w, "No active file", http.StatusNotFound)
 		return
 	}
@@ -434,10 +449,10 @@ func videoHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "video/mp4")
 	w.Header().Set("Accept-Ranges", "bytes")
 	w.Header().Set("Cache-Control", "no-cache")
-	
+
 	reader := session.File.NewReader()
 	defer reader.Close()
-	
+
 	logger.Debug("Serving video stream for IP: %s", ip)
 	http.ServeContent(w, r, "video.mp4", time.Now(), reader)
 }
@@ -449,7 +464,7 @@ func progressHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sessionLock.Lock()
-	session, exists := sessions[ip]
+	session, exists := sessions[getSessionID(w, r)]
 	sessionLock.Unlock()
 
 	progress := 0.0
@@ -476,11 +491,11 @@ func subtitleHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sessionLock.Lock()
-	session, exists := sessions[ip]
+	session, exists := sessions[getSessionID(w, r)]
 	sessionLock.Unlock()
 
 	if !exists || session.Torrent == nil {
-		logger.Warn("Subtitle request for non-existent session: %s", ip)
+		logger.Warn("Subtitle request for non-existent session: %s", getSessionID(w, r))
 		http.Error(w, "Session not found", http.StatusNotFound)
 		return
 	}
@@ -501,7 +516,7 @@ func subtitleHandler(w http.ResponseWriter, r *http.Request) {
 
 	ext := strings.ToLower(filepath.Ext(fileName))
 	w.Header().Set("Content-Type", "text/vtt")
-	
+
 	if ext != ".vtt" {
 		reader := subFile.NewReader()
 		defer reader.Close()
@@ -532,7 +547,7 @@ func subtitleHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Error converting subtitle", http.StatusInternalServerError)
 			return
 		}
-		
+
 		logger.Debug("Served converted subtitle: %s", fileName)
 		return
 	}
@@ -582,7 +597,7 @@ func uploadSubtitleHandler(w http.ResponseWriter, r *http.Request) {
 	// Create safe filename
 	safeFilename := strings.ReplaceAll(header.Filename, "..", "")
 	path := filepath.Join("subtitles", ip+"_"+safeFilename)
-	
+
 	dst, err := os.Create(path)
 	if err != nil {
 		logger.Error("Error creating subtitle file %s: %v", path, err)
@@ -600,7 +615,7 @@ func uploadSubtitleHandler(w http.ResponseWriter, r *http.Request) {
 	sessionLock.Lock()
 	defer sessionLock.Unlock()
 
-	if session, exists := sessions[ip]; exists {
+	if session, exists := sessions[getSessionID(w, r)]; exists {
 		lang := detectSubtitleLanguage(header.Filename)
 		session.Subtitles = append(session.Subtitles, Subtitle{
 			Name: header.Filename,
@@ -665,7 +680,7 @@ func isSubtitleFile(ext string) bool {
 
 func detectSubtitleLanguage(filename string) string {
 	filename = strings.ToLower(filename)
-	
+
 	langs := map[string]string{
 		"english": "en", ".en.": "en", "eng.": "en", ".eng.": "en",
 		"french": "fr", ".fr.": "fr", "fra.": "fr", ".fra.": "fr",
@@ -688,8 +703,6 @@ func detectSubtitleLanguage(filename string) string {
 	return "und" // undefined
 }
 
-
-
 // Recovery functions
 func recoverFromPanic(operation string) {
 	if r := recover(); r != nil {
@@ -705,17 +718,17 @@ func safeHTTPHandler(name string, handler http.HandlerFunc) http.HandlerFunc {
 				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			}
 		}()
-		
+
 		handler(w, r)
 	}
 }
 
 func startHealthMonitor() {
 	defer recoverFromPanic("health-monitor")
-	
+
 	ticker := time.NewTicker(30 * time.Second)
 	defer ticker.Stop()
-	
+
 	for {
 		select {
 		case <-ticker.C:
@@ -723,9 +736,9 @@ func startHealthMonitor() {
 			sessionLock.Lock()
 			sessionCount := len(sessions)
 			sessionLock.Unlock()
-			
+
 			logger.Debug("Health check - Active sessions: %d", sessionCount)
-			
+
 		case <-appContext.Done():
 			logger.Info("Health monitor stopping...")
 			return
@@ -741,5 +754,3 @@ func waitForShutdown() {
 		logger.Info("Application context cancelled")
 	}
 }
-
-
