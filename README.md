@@ -20,13 +20,13 @@ A lightweight, web-based torrent streaming application built in Go that allows y
 ## 🖼️ Screenshots
 
 ### Main Interface
-![Main Interface](docs/screenshots/main-interface.png)
+![Main Interface](docs/screenshots/1.png)
 
 ### Streaming View
-![Streaming View](docs/screenshots/streaming-view.png)
+![Streaming View](docs/screenshots/2.png)
 
 ### Mobile View
-![Mobile View](docs/screenshots/mobile-view.png)
+![Mobile View](docs/screenshots/3.png)
 
 ## 🚀 Quick Start
 
