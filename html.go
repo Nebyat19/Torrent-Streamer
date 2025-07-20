@@ -43,7 +43,7 @@ func getHTMLTemplate() string {
             padding: 0.75rem;
             font-weight: 400;
             letter-spacing: -0.01em;
-			background:grey;
+            background:grey;
         }
 
         .container {
@@ -53,8 +53,7 @@ func getHTMLTemplate() string {
             border-radius: 10px;
             border: 1px solid var(--border-light);
             overflow: hidden;
-			background: black;
-			
+            background: black;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
 
@@ -100,9 +99,13 @@ func getHTMLTemplate() string {
             letter-spacing: -0.005em;
         }
 
+        .form-input-container {
+            position: relative;
+        }
+
         .form-input {
             width: 100%;
-            padding: 0.625rem 0.875rem;
+            padding: 0.625rem 2.5rem 0.625rem 0.875rem;
             border: 1px solid var(--border);
             border-radius: 7px;
             font-size: 0.75rem;
@@ -121,6 +124,33 @@ func getHTMLTemplate() string {
         .form-input::placeholder {
             color: var(--text-muted);
             font-size: 0.7rem;
+        }
+
+        .input-actions {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .input-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+        }
+
+        .input-btn:hover {
+            color: var(--primary);
+        }
+
+        .input-btn svg {
+            width: 16px;
+            height: 16px;
         }
 
         .btn {
@@ -422,7 +452,6 @@ func getHTMLTemplate() string {
             }
         }
 
-        /* Enhanced readability for small text */
         @media (max-width: 480px) {
             body {
                 font-size: 11px;
@@ -478,8 +507,24 @@ func getHTMLTemplate() string {
             <form id="streamForm" action="/stream" method="post">
                 <div class="form-group">
                     <label for="magnet" class="form-label">Magnet Link</label>
-                    <input type="text" id="magnet" name="magnet" class="form-input" required
-                           placeholder="magnet:?xt=urn:btih:..." value="{{.Magnet}}">
+                    <div class="form-input-container">
+                        <input type="text" id="magnet" name="magnet" class="form-input" required
+                               placeholder="magnet:?xt=urn:btih:..." value="{{.Magnet}}">
+                        <div class="input-actions">
+                            <button type="button" class="input-btn" onclick="pasteMagnetLink()" title="Paste">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="8" y="8" width="12" height="12" rx="2"></rect>
+                                    <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path>
+                                </svg>
+                            </button>
+                            <button type="button" class="input-btn" onclick="clearMagnetLink()" title="Clear">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" id="streamBtn" class="btn btn-primary">
                     <span id="btnText">
@@ -504,8 +549,8 @@ func getHTMLTemplate() string {
             {{if .Downloading}}
             <div class="progress-container">
                 <div id="progressBar" class="progress-bar" style="width: {{.Progress}}%"></div>
-				</div>
-				<div class="progress-text">{{printf "%.1f" .Progress}}% downloaded</div>
+            </div>
+            <div class="progress-text">{{printf "%.1f" .Progress}}% downloaded</div>
             {{end}}
 
             {{if .VideoURL}}
@@ -621,6 +666,27 @@ func getHTMLTemplate() string {
                 loader.style.display = 'none';
             });
         });
+
+        function pasteMagnetLink() {
+            navigator.clipboard.readText()
+                .then(text => {
+                    if (text.startsWith('magnet:')) {
+                        document.getElementById('magnet').value = text;
+                        showNotification('Magnet link pasted!', 'success');
+                    } else {
+                        showNotification('Clipboard doesn\'t contain a valid magnet link', 'error');
+                    }
+                })
+                .catch(err => {
+                    showNotification('Failed to access clipboard. Make sure you\'re using HTTPS', 'error');
+                    console.error('Failed to read clipboard contents: ', err);
+                });
+        }
+
+        function clearMagnetLink() {
+            document.getElementById('magnet').value = '';
+            document.getElementById('magnet').focus();
+        }
 
         function showNotification(message, type) {
             const notification = document.getElementById('notification');

@@ -45,3 +45,10 @@
 [2025-07-20 18:06:30] [INFO] [logger.go:190] Template initialized successfully
 [2025-07-20 18:06:30] [INFO] [logger.go:190] HTTP routes configured
 [2025-07-20 18:06:30] [INFO] [logger.go:190] Server starting on http://localhost:8080
+[2025-07-20 18:07:00] [INFO] [logger.go:190] Application startup successful
+[2025-07-20 18:16:03] [INFO] [logger.go:190] === Torrent Streamer Starting ===
+[2025-07-20 18:16:03] [INFO] [logger.go:190] Torrent client initialized successfully
+[2025-07-20 18:16:03] [INFO] [logger.go:190] Template initialized successfully
+[2025-07-20 18:16:03] [INFO] [logger.go:190] HTTP routes configured
+[2025-07-20 18:16:03] [INFO] [logger.go:190] Server starting on http://localhost:8080
+[2025-07-20 18:16:33] [INFO] [logger.go:190] Application startup successful
