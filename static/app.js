@@ -9,7 +9,7 @@ class TorrentStreamer {
   
       this.initializeEventListeners()
       this.startStatusPolling()
-      this.updateStats()
+     
     }
   
     initializeEventListeners() {
@@ -100,7 +100,7 @@ class TorrentStreamer {
         if (result.success) {
           this.showNotification("🚀 Stream started successfully!", "success")
           this.startProgressPolling()
-          this.updateStats()
+         
         } else {
           this.showNotification(result.error || "Failed to start stream", "error")
         }
@@ -108,15 +108,7 @@ class TorrentStreamer {
         console.error("Stream error:", error)
         this.showNotification("Network error occurred", "error")
       } finally {
-        // Reset button state
-        btn.disabled = false
-        btnText.innerHTML = `
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M8 5v14l11-7z"/>
-                  </svg>
-                  Start Streaming
-              `
-        loader.style.display = "none"
+       
       }
     }
   
@@ -192,6 +184,17 @@ class TorrentStreamer {
       const subtitleSection = document.getElementById("subtitleSection")
   
       if (data.videoUrl) {
+         // Reset button statebtn
+         const btn = document.getElementById("streamBtn")
+         const loader = document.getElementById("btnLoader")
+        btn.disabled = false
+        btnText.innerHTML = `
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
+                  </svg>
+             Streaming ...
+              `
+        loader.style.display = "none"
         mediaSection.style.display = "block"
         subtitleSection.style.display = "block"
   
@@ -217,7 +220,7 @@ class TorrentStreamer {
   
           const handleCanPlay = () => {
             console.log("▶️ Video ready to play")
-            this.updateStats()
+           
             video.removeEventListener("canplay", handleCanPlay)
           }
   
@@ -311,19 +314,7 @@ class TorrentStreamer {
       return `${minutes}:${secs.toString().padStart(2, "0")}`
     }
   
-    updateStats() {
-      // Update active streams
-      const activeStreams = this.currentVideoUrl ? 1 : 0
-      document.getElementById("activeStreams").textContent = activeStreams
   
-      // Update uptime
-      const uptime = (((Date.now() - this.startTime) / (1000 * 60 * 60 * 24)) * 99.9).toFixed(1)
-      document.getElementById("uptime").textContent = `${Math.min(99.9, uptime)}%`
-  
-      // Simulate data transferred (this would be real in production)
-      const dataTransferred = (Math.random() * 10).toFixed(1)
-      document.getElementById("dataTransferred").textContent = `${dataTransferred} GB`
-    }
   
     async updateProgress() {
       try {
@@ -470,6 +461,17 @@ class TorrentStreamer {
         const result = await response.json()
   
         if (result.success) {
+             //Reset button state
+             const btn = document.getElementById("streamBtn")
+             const loader = document.getElementById("btnLoader")
+        btn.disabled = false
+        btnText.innerHTML = `
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
+                  </svg>
+                  Start Streaming
+              `
+        loader.style.display = "none"
           // Clear current state
           this.currentVideoUrl = null
           this.currentSubtitles = []
@@ -484,8 +486,7 @@ class TorrentStreamer {
           document.getElementById("subtitleSection").style.display = "none"
           document.getElementById("progressSection").style.display = "none"
   
-          // Reset stats
-          this.updateStats()
+         
   
           this.showNotification("🔄 Session reset successfully", "success")
         } else {

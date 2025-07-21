@@ -173,3 +173,79 @@
 [2025-07-21 15:21:33] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
 [2025-07-21 15:21:33] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
 [2025-07-21 15:21:38] [INFO] [logger.go:190] Application startup successful
+[2025-07-21 15:22:49] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6ebay1c7f84425d... (Session: 40788dbc-6bf8-4fbc-ad0a-d30f1db04eb7)
+[2025-07-21 15:22:49] [ERROR] [logger.go:198] Error adding magnet: error parsing infohash "c30d11150eab0bb6ebay1c7f84425dc29802d4656": unhandled xt parameter encoding (encoded length 41)
+[2025-07-21 15:23:04] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6ebay1c7f84425d... (Session: 40788dbc-6bf8-4fbc-ad0a-d30f1db04eb7)
+[2025-07-21 15:23:04] [ERROR] [logger.go:198] Error adding magnet: error parsing infohash "c30d11150eab0bb6ebay1c7f84425dc29802d4656": unhandled xt parameter encoding (encoded length 41)
+[2025-07-21 15:23:12] [WARN] [logger.go:194] Video request but no file available for session: 40788dbc-6bf8-4fbc-ad0a-d30f1db04eb7
+[2025-07-21 15:24:52] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:C30D11150EAB0BB6EBA1C7F84425DC... (Session: 40788dbc-6bf8-4fbc-ad0a-d30f1db04eb7)
+[2025-07-21 15:24:52] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 15:24:55] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 15:24:55] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 15:24:55] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 15:56:24] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6eba1c7f84425dc... (Session: 40788dbc-6bf8-4fbc-ad0a-d30f1db04eb7)
+[2025-07-21 15:56:24] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 15:56:27] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 15:56:27] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 15:56:27] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 15:56:56] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6eba1c7f84425dc... (Session: 40788dbc-6bf8-4fbc-ad0a-d30f1db04eb7)
+[2025-07-21 15:56:56] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 15:57:00] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 15:57:00] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 15:57:00] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 16:00:45] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6eba1c7f84425dc... (Session: 40788dbc-6bf8-4fbc-ad0a-d30f1db04eb7)
+[2025-07-21 16:00:45] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 16:00:48] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 16:00:48] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 16:00:48] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 16:00:52] [INFO] [logger.go:190] Dropped torrent for session reset: 40788dbc-6bf8-4fbc-ad0a-d30f1db04eb7
+[2025-07-21 16:00:52] [INFO] [logger.go:190] Session reset: 40788dbc-6bf8-4fbc-ad0a-d30f1db04eb7
+[2025-07-21 16:01:31] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6eba1c7f84425dc... (Session: 41605a16-9e02-44aa-adcc-e42cca8097bd)
+[2025-07-21 16:01:31] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 16:01:33] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 16:01:33] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 16:01:33] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 16:01:37] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6eba1c7f84425dc... (Session: 41605a16-9e02-44aa-adcc-e42cca8097bd)
+[2025-07-21 16:01:37] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 16:01:43] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 16:01:43] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 16:01:43] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 16:01:43] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6eba1c7f84425dc... (Session: 41605a16-9e02-44aa-adcc-e42cca8097bd)
+[2025-07-21 16:01:43] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 16:01:45] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 16:01:45] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 16:01:45] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 16:01:56] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6eba1c7f84425dc... (Session: 41605a16-9e02-44aa-adcc-e42cca8097bd)
+[2025-07-21 16:01:56] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 16:02:00] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 16:02:00] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 16:02:00] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 16:02:45] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6eba1c7f84425dc... (Session: 41605a16-9e02-44aa-adcc-e42cca8097bd)
+[2025-07-21 16:02:45] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 16:02:48] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 16:02:48] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 16:02:48] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 16:03:05] [INFO] [logger.go:190] Dropped torrent for session reset: 41605a16-9e02-44aa-adcc-e42cca8097bd
+[2025-07-21 16:03:05] [INFO] [logger.go:190] Session reset: 41605a16-9e02-44aa-adcc-e42cca8097bd
+[2025-07-21 16:03:12] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:C30D11150EAB0BB6EBA1C7F84425DC... (Session: 7b624042-9522-4fb9-b376-cb6b322ec755)
+[2025-07-21 16:03:12] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 16:03:17] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 16:03:17] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 16:03:17] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 16:05:15] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6eba1c7f84425dc... (Session: 7b624042-9522-4fb9-b376-cb6b322ec755)
+[2025-07-21 16:05:15] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 16:05:20] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 16:05:20] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 16:05:20] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 16:07:57] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6eba1c7f84425dc... (Session: 7b624042-9522-4fb9-b376-cb6b322ec755)
+[2025-07-21 16:07:57] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 16:08:02] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 16:08:02] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 16:08:02] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 16:08:06] [INFO] [logger.go:190] Dropped torrent for session reset: 7b624042-9522-4fb9-b376-cb6b322ec755
+[2025-07-21 16:08:06] [INFO] [logger.go:190] Session reset: 7b624042-9522-4fb9-b376-cb6b322ec755
+[2025-07-21 16:11:22] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:C30D11150EAB0BB6EBA1C7F84425DC... (Session: e0f7dd3c-2208-4d2c-8e7f-64a8e6bca5a2)
+[2025-07-21 16:11:22] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 16:11:26] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 16:11:26] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 16:11:26] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
