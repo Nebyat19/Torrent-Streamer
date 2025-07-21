@@ -398,9 +398,9 @@ class TorrentStreamer {
   
       if (query) {
         // Update the main search and switch to browse section
-        document.getElementById("movieSearch").value = query
+        //document.getElementById("movieSearch").value = query
         this.currentFilters.query_term = query
-        this.showSection("browse")
+        //this.showSection("browse")
         this.loadMovies(1)
   
         // Clear header search
