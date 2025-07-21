@@ -4,7 +4,7 @@ class TorrentStreamer {
       this.currentSubtitles = []
       this.progressInterval = null
       this.statusInterval = null
-      this.currentVideoUrl = null // Add this line
+      this.currentVideoUrl = null
   
       this.initializeEventListeners()
       this.startStatusPolling()
@@ -23,7 +23,7 @@ class TorrentStreamer {
         const label = document.querySelector(".file-input-label")
         if (e.target.files[0]) {
           label.innerHTML = `
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                           <polyline points="14,2 14,8 20,8"></polyline>
                       </svg>
@@ -87,8 +87,8 @@ class TorrentStreamer {
         // Reset button state
         btn.disabled = false
         btnText.innerHTML = `
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
                   </svg>
                   Start Streaming
               `
@@ -151,34 +151,31 @@ class TorrentStreamer {
       }
   
       // Show/hide progress
-      const progressContainer = document.getElementById("progressContainer")
-      const progressText = document.getElementById("progressText")
+      const progressSection = document.getElementById("progressSection")
   
       if (data.downloading) {
-        progressContainer.style.display = "block"
-        progressText.style.display = "block"
+        progressSection.style.display = "block"
         document.getElementById("progressBar").style.width = `${data.progress}%`
-        progressText.textContent = `${data.progress.toFixed(1)}% downloaded`
+        document.getElementById("progressText").textContent = `${data.progress.toFixed(1)}% downloaded`
       } else {
-        progressContainer.style.display = "none"
-        progressText.style.display = "none"
+        progressSection.style.display = "none"
       }
   
-      // Show/hide video and file info
-      const videoContainer = document.getElementById("videoContainer")
-      const fileInfo = document.getElementById("fileInfo")
+      // Show/hide media section
+      const mediaSection = document.getElementById("mediaSection")
+      const subtitleSection = document.getElementById("subtitleSection")
   
       if (data.videoUrl) {
+        // Show media section
+        mediaSection.style.display = "block"
+        subtitleSection.style.display = "block"
+  
         // Update file info
-        fileInfo.style.display = "flex"
         document.getElementById("fileType").textContent = data.fileType?.toUpperCase() || "FILE"
         document.getElementById("fileSize").textContent = this.formatFileSize(data.fileSize)
   
         // Update video ONLY if URL has changed
-        videoContainer.style.display = "block"
         const video = document.getElementById("videoPlayer")
-  
-        // Get current video URL more reliably
         const currentVideoUrl = video.currentSrc || video.src || ""
         const newVideoUrl = data.videoUrl
   
@@ -186,7 +183,7 @@ class TorrentStreamer {
         if (currentVideoUrl !== newVideoUrl && !currentVideoUrl.includes(newVideoUrl)) {
           console.log("Video URL changed, updating:", { from: currentVideoUrl, to: newVideoUrl })
   
-          // Set the video source directly (don't use source elements)
+          // Set the video source directly
           video.src = newVideoUrl
   
           // Add one-time event listeners for this load
@@ -214,9 +211,8 @@ class TorrentStreamer {
         // Update subtitles
         this.updateSubtitles(data.subtitles || [])
       } else {
-        videoContainer.style.display = "none"
-        fileInfo.style.display = "none"
-        document.getElementById("subtitleControls").style.display = "none"
+        mediaSection.style.display = "none"
+        subtitleSection.style.display = "none"
       }
     }
   
@@ -224,29 +220,23 @@ class TorrentStreamer {
       this.currentSubtitles = subtitles
       const subtitleControls = document.getElementById("subtitleControls")
   
-      if (subtitles.length > 0) {
-        subtitleControls.style.display = "flex"
+      // Clear existing subtitle buttons (except "None")
+      const existingButtons = subtitleControls.querySelectorAll(".btn:not(:first-child)")
+      existingButtons.forEach((btn) => btn.remove())
   
-        // Clear existing subtitle buttons (except "None")
-        const existingButtons = subtitleControls.querySelectorAll(".btn:not(:first-child)")
-        existingButtons.forEach((btn) => btn.remove())
-  
-        // Add subtitle buttons
-        subtitles.forEach((subtitle) => {
-          const button = document.createElement("button")
-          button.className = "btn btn-secondary"
-          button.onclick = () => this.setSubtitle(subtitle.path, subtitle.lang)
-          button.innerHTML = `
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      // Add subtitle buttons
+      subtitles.forEach((subtitle) => {
+        const button = document.createElement("button")
+        button.className = "btn btn-secondary"
+        button.onclick = () => this.setSubtitle(subtitle.path, subtitle.lang)
+        button.innerHTML = `
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
                   </svg>
                   ${subtitle.name}
               `
-          subtitleControls.appendChild(button)
-        })
-      } else {
-        subtitleControls.style.display = "none"
-      }
+        subtitleControls.appendChild(button)
+      })
     }
   
     async updateProgress() {
@@ -280,7 +270,7 @@ class TorrentStreamer {
       this.updateStatus() // Initial update
       this.statusInterval = setInterval(() => {
         this.updateStatus()
-      }, 5000) // Changed from 2000 to 5000 (5 seconds)
+      }, 5000)
     }
   
     startProgressPolling() {
@@ -317,7 +307,7 @@ class TorrentStreamer {
       }
   
       // Update active button
-      document.querySelectorAll(".subtitle-controls .btn").forEach((btn) => {
+      document.querySelectorAll("#subtitleControls .btn").forEach((btn) => {
         btn.classList.remove("active")
       })
       event.target.classList.add("active")
@@ -346,7 +336,7 @@ class TorrentStreamer {
           // Reset file input
           fileInput.value = ""
           document.querySelector(".file-input-label").innerHTML = `
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                           <polyline points="7,10 12,15 17,10"></polyline>
                           <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -406,11 +396,9 @@ class TorrentStreamer {
           // Reset UI
           document.getElementById("magnet").value = ""
           document.getElementById("statusText").textContent = "Ready to stream"
-          document.getElementById("videoContainer").style.display = "none"
-          document.getElementById("fileInfo").style.display = "none"
-          document.getElementById("subtitleControls").style.display = "none"
-          document.getElementById("progressContainer").style.display = "none"
-          document.getElementById("progressText").style.display = "none"
+          document.getElementById("mediaSection").style.display = "none"
+          document.getElementById("subtitleSection").style.display = "none"
+          document.getElementById("progressSection").style.display = "none"
   
           this.showNotification("Session reset successfully", "success")
         } else {
@@ -468,7 +456,6 @@ class TorrentStreamer {
     window.streamer.uploadSubtitle()
   }
   
-  // Add this function with the other global functions
   function resetSession() {
     window.streamer.resetSession()
   }
