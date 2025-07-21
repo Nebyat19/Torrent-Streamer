@@ -47,6 +47,13 @@ class TorrentStreamer {
         return
       }
   
+      // Auto-reset if there's an existing video to start fresh
+      if (this.currentVideoUrl) {
+        await this.resetSession()
+        // Wait a moment for the reset to complete
+        await new Promise((resolve) => setTimeout(resolve, 500))
+      }
+  
       const btn = document.getElementById("streamBtn")
       const btnText = document.getElementById("btnText")
       const loader = document.getElementById("btnLoader")
@@ -377,6 +384,44 @@ class TorrentStreamer {
       document.getElementById("magnet").focus()
     }
   
+    async resetSession() {
+      try {
+        const response = await fetch(`${this.apiBase}/reset-session`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+  
+        const result = await response.json()
+  
+        if (result.success) {
+          // Clear current state
+          this.currentVideoUrl = null
+          this.currentSubtitles = []
+  
+          // Stop polling
+          this.stopProgressPolling()
+  
+          // Reset UI
+          document.getElementById("magnet").value = ""
+          document.getElementById("statusText").textContent = "Ready to stream"
+          document.getElementById("videoContainer").style.display = "none"
+          document.getElementById("fileInfo").style.display = "none"
+          document.getElementById("subtitleControls").style.display = "none"
+          document.getElementById("progressContainer").style.display = "none"
+          document.getElementById("progressText").style.display = "none"
+  
+          this.showNotification("Session reset successfully", "success")
+        } else {
+          this.showNotification(result.error || "Failed to reset session", "error")
+        }
+      } catch (error) {
+        console.error("Reset session error:", error)
+        this.showNotification("Failed to reset session", "error")
+      }
+    }
+  
     showNotification(message, type) {
       const notification = document.getElementById("notification")
       const notificationText = document.getElementById("notificationText")
@@ -421,6 +466,11 @@ class TorrentStreamer {
   
   function uploadSubtitle() {
     window.streamer.uploadSubtitle()
+  }
+  
+  // Add this function with the other global functions
+  function resetSession() {
+    window.streamer.resetSession()
   }
   
   // Initialize the application when DOM is loaded

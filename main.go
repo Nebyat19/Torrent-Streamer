@@ -206,6 +206,9 @@ func setupRoutes() {
 	http.HandleFunc("/api/progress", corsHandler(safeHTTPHandler("api-progress", apiProgressHandler)))
 	http.HandleFunc("/api/upload-subtitle", corsHandler(safeHTTPHandler("api-upload-subtitle", apiUploadSubtitleHandler)))
 
+	// Add this line in setupRoutes() after the existing API routes
+	http.HandleFunc("/api/reset-session", corsHandler(safeHTTPHandler("api-reset-session", apiResetSessionHandler)))
+
 	// Media serving routes
 	http.HandleFunc("/video", corsHandler(safeHTTPHandler("video", videoHandler)))
 	http.HandleFunc("/subtitle", corsHandler(safeHTTPHandler("subtitle", subtitleHandler)))
@@ -411,6 +414,41 @@ func apiUploadSubtitleHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	respondJSON(w, APIResponse{Success: true, Message: "Subtitle uploaded successfully"})
+}
+
+func apiResetSessionHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		respondJSON(w, APIResponse{Success: false, Error: "Method not allowed"})
+		return
+	}
+
+	sessionID := getSessionID(w, r)
+	
+	sessionLock.Lock()
+	defer sessionLock.Unlock()
+
+	if session, exists := sessions[sessionID]; exists {
+		// Clean up torrent if any
+		if session.Torrent != nil {
+			session.Torrent.Drop()
+			logger.Info("Dropped torrent for session reset: %s", sessionID)
+		}
+		
+		// Remove session
+		delete(sessions, sessionID)
+		logger.Info("Session reset: %s", sessionID)
+	}
+
+	// Clear the session cookie by setting it to expire immediately
+	http.SetCookie(w, &http.Cookie{
+		Name:     "ts_session_id",
+		Value:    "",
+		Path:     "/",
+		HttpOnly: true,
+		MaxAge:   -1, // Expire immediately
+	})
+
+	respondJSON(w, APIResponse{Success: true, Message: "Session reset successfully"})
 }
 
 func processTorrent(session *UserSession, magnetLink, sessionID string) {
