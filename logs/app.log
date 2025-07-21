@@ -250,3 +250,135 @@
 [2025-07-21 16:11:26] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
 [2025-07-21 16:11:26] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
 [2025-07-21 16:25:56] [INFO] [logger.go:190] Subtitle uploaded successfully: The.Bourne.Ultimatum.2007.1080p.720p.BluRay.x264.[YTS.MX]-English.srt (Session: e0f7dd3c-2208-4d2c-8e7f-64a8e6bca5a2)
+[2025-07-21 19:25:57] [INFO] [logger.go:190] === Torrent Streamer API Starting ===
+[2025-07-21 19:25:58] [INFO] [logger.go:190] Torrent client initialized successfully
+[2025-07-21 19:25:58] [INFO] [logger.go:190] HTTP routes configured successfully
+[2025-07-21 19:25:58] [INFO] [logger.go:190] All necessary directories created
+[2025-07-21 19:25:58] [INFO] [logger.go:190] API Server starting on http://localhost:8080
+[2025-07-21 19:26:28] [INFO] [logger.go:190] Application startup successful
+[2025-07-21 19:57:39] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:85285C34B92C7F5F6F1E49A64082D7... (Session: e0f7dd3c-2208-4d2c-8e7f-64a8e6bca5a2)
+[2025-07-21 19:57:39] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 19:57:56] [INFO] [logger.go:190] Got torrent info: Ask Sadece Bir An (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 19:57:56] [INFO] [logger.go:190] Found video file: Ask Sadece Bir An (2025) [720p] [WEBRip] [YTS.MX]/Ask.Sadece.Bir.An.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1027.84 MB)
+[2025-07-21 19:57:56] [INFO] [logger.go:190] Stream ready for: Ask Sadece Bir An (2025) [720p] [WEBRip] [YTS.MX] (4 subtitles found)
+[2025-07-21 19:58:13] [INFO] [logger.go:190] Dropped torrent for session reset: e0f7dd3c-2208-4d2c-8e7f-64a8e6bca5a2
+[2025-07-21 19:58:13] [INFO] [logger.go:190] Session reset: e0f7dd3c-2208-4d2c-8e7f-64a8e6bca5a2
+[2025-07-21 19:58:59] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:6C14DC4BEB375C658B79D8427CBCCE... (Session: 79b28a40-4188-4a0d-9758-539fa8abf321)
+[2025-07-21 19:58:59] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 19:59:06] [INFO] [logger.go:190] Got torrent info: The Lion King (2019) [BluRay] [3D] [HSBS] [YTS.LT]
+[2025-07-21 19:59:06] [INFO] [logger.go:190] Found video file: The Lion King (2019) [BluRay] [3D] [HSBS] [YTS.LT]/The.Lion.King.2019.3D.HSBS.BluRay.x264-[YTS.LT].mp4 (1910.21 MB)
+[2025-07-21 19:59:06] [INFO] [logger.go:190] Stream ready for: The Lion King (2019) [BluRay] [3D] [HSBS] [YTS.LT] (0 subtitles found)
+[2025-07-21 20:00:09] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:10EAAC6D97E993E4812E82C0B572F8... (Session: 79b28a40-4188-4a0d-9758-539fa8abf321)
+[2025-07-21 20:00:09] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:00:15] [INFO] [logger.go:190] Got torrent info: The Lion King (1994) [1080p] [3D] [HSBS]
+[2025-07-21 20:00:15] [INFO] [logger.go:190] Found video file: The Lion King (1994) [1080p] [3D] [HSBS]/The Lion King 3D (1994) 1080pBrRip HSBS x264 - 1.3GB - YIFY.mp4 (1328.80 MB)
+[2025-07-21 20:00:15] [INFO] [logger.go:190] Stream ready for: The Lion King (1994) [1080p] [3D] [HSBS] (1 subtitles found)
+[2025-07-21 20:00:48] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:163772873E4529EA403B83D53479DE... (Session: 79b28a40-4188-4a0d-9758-539fa8abf321)
+[2025-07-21 20:00:48] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:01:03] [INFO] [logger.go:190] Got torrent info: The Lion King (2019) [BluRay] [720p] [YTS.LT]
+[2025-07-21 20:01:03] [INFO] [logger.go:190] Found video file: The Lion King (2019) [BluRay] [720p] [YTS.LT]/The.Lion.King.2019.720p.BluRay.x264-[YTS.LT].mp4 (1067.99 MB)
+[2025-07-21 20:01:03] [INFO] [logger.go:190] Stream ready for: The Lion King (2019) [BluRay] [720p] [YTS.LT] (0 subtitles found)
+[2025-07-21 20:35:05] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:B06F864C01BEC7B9DF5C616B0132C9... (Session: 79b28a40-4188-4a0d-9758-539fa8abf321)
+[2025-07-21 20:35:05] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:35:35] [ERROR] [logger.go:198] Timeout waiting for torrent info
+[2025-07-21 20:35:36] [INFO] [logger.go:190] Dropped torrent for session reset: 79b28a40-4188-4a0d-9758-539fa8abf321
+[2025-07-21 20:35:36] [INFO] [logger.go:190] Session reset: 79b28a40-4188-4a0d-9758-539fa8abf321
+[2025-07-21 20:35:36] [INFO] [logger.go:190] Session reset: 79b28a40-4188-4a0d-9758-539fa8abf321
+[2025-07-21 20:35:36] [INFO] [logger.go:190] Session reset: 79b28a40-4188-4a0d-9758-539fa8abf321
+[2025-07-21 20:35:36] [INFO] [logger.go:190] Session reset: 79b28a40-4188-4a0d-9758-539fa8abf321
+[2025-07-21 20:35:36] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:163772873e4529ea403b83d53479de... (Session: 3a78e638-f621-4db6-bcd8-da8257cd3629)
+[2025-07-21 20:35:36] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:35:55] [INFO] [logger.go:190] Got torrent info: The Lion King (2019) [BluRay] [720p] [YTS.LT]
+[2025-07-21 20:35:55] [INFO] [logger.go:190] Found video file: The Lion King (2019) [BluRay] [720p] [YTS.LT]/The.Lion.King.2019.720p.BluRay.x264-[YTS.LT].mp4 (1067.99 MB)
+[2025-07-21 20:35:55] [INFO] [logger.go:190] Stream ready for: The Lion King (2019) [BluRay] [720p] [YTS.LT] (0 subtitles found)
+[2025-07-21 20:35:55] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:163772873e4529ea403b83d53479de... (Session: 3a78e638-f621-4db6-bcd8-da8257cd3629)
+[2025-07-21 20:35:55] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:163772873e4529ea403b83d53479de... (Session: 3a78e638-f621-4db6-bcd8-da8257cd3629)
+[2025-07-21 20:35:55] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:163772873e4529ea403b83d53479de... (Session: 3a78e638-f621-4db6-bcd8-da8257cd3629)
+[2025-07-21 20:35:55] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:35:55] [INFO] [logger.go:190] Got torrent info: The Lion King (2019) [BluRay] [720p] [YTS.LT]
+[2025-07-21 20:35:55] [INFO] [logger.go:190] Found video file: The Lion King (2019) [BluRay] [720p] [YTS.LT]/The.Lion.King.2019.720p.BluRay.x264-[YTS.LT].mp4 (1067.99 MB)
+[2025-07-21 20:35:55] [INFO] [logger.go:190] Stream ready for: The Lion King (2019) [BluRay] [720p] [YTS.LT] (0 subtitles found)
+[2025-07-21 20:35:55] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:36:05] [INFO] [logger.go:190] Got torrent info: The Lion King (2019) [BluRay] [720p] [YTS.LT]
+[2025-07-21 20:36:05] [INFO] [logger.go:190] Found video file: The Lion King (2019) [BluRay] [720p] [YTS.LT]/The.Lion.King.2019.720p.BluRay.x264-[YTS.LT].mp4 (1067.99 MB)
+[2025-07-21 20:36:05] [INFO] [logger.go:190] Stream ready for: The Lion King (2019) [BluRay] [720p] [YTS.LT] (0 subtitles found)
+[2025-07-21 20:36:05] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:36:35] [ERROR] [logger.go:198] Timeout waiting for torrent info
+[2025-07-21 20:36:35] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:E4533845BA6321DCFA8BB69700E15F... (Session: 3a78e638-f621-4db6-bcd8-da8257cd3629)
+[2025-07-21 20:36:35] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:36:45] [INFO] [logger.go:190] Got torrent info: Bluey (2018) [S02] [720p] [WEBRip] [YTS.MX]
+[2025-07-21 20:36:45] [INFO] [logger.go:190] Found video file: Bluey (2018) [S02] [720p] [WEBRip] [YTS.MX]/Bluey.2018.S02.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (67.18 MB)
+[2025-07-21 20:36:45] [INFO] [logger.go:190] Stream ready for: Bluey (2018) [S02] [720p] [WEBRip] [YTS.MX] (9 subtitles found)
+[2025-07-21 20:36:45] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:E4533845BA6321DCFA8BB69700E15F... (Session: 3a78e638-f621-4db6-bcd8-da8257cd3629)
+[2025-07-21 20:36:45] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:36:51] [INFO] [logger.go:190] Got torrent info: Bluey (2018) [S02] [720p] [WEBRip] [YTS.MX]
+[2025-07-21 20:36:51] [INFO] [logger.go:190] Found video file: Bluey (2018) [S02] [720p] [WEBRip] [YTS.MX]/Bluey.2018.S02.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (67.18 MB)
+[2025-07-21 20:36:51] [INFO] [logger.go:190] Stream ready for: Bluey (2018) [S02] [720p] [WEBRip] [YTS.MX] (9 subtitles found)
+[2025-07-21 20:36:57] [INFO] [logger.go:190] Dropped torrent for session reset: 3a78e638-f621-4db6-bcd8-da8257cd3629
+[2025-07-21 20:36:57] [INFO] [logger.go:190] Session reset: 3a78e638-f621-4db6-bcd8-da8257cd3629
+[2025-07-21 20:36:57] [WARN] [logger.go:194] Video request for non-existent session: 3a78e638-f621-4db6-bcd8-da8257cd3629
+[2025-07-21 20:37:16] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:7DDC1633F2A6B22003AC4C8CF24D66... (Session: f4850537-2090-4aa7-935e-dfba0ef01f4a)
+[2025-07-21 20:37:16] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:37:28] [INFO] [logger.go:190] Got torrent info: Richard Linklater Dream Is Destiny (2016) [1080p] [WEBRip] [YTS.MX]
+[2025-07-21 20:37:28] [INFO] [logger.go:190] Found video file: Richard Linklater Dream Is Destiny (2016) [1080p] [WEBRip] [YTS.MX]/Richard.Linklater.Dream.Is.Destiny.2016.1080p.WEBRip.x264.AAC-[YTS.MX].mp4 (1536.95 MB)
+[2025-07-21 20:37:28] [INFO] [logger.go:190] Stream ready for: Richard Linklater Dream Is Destiny (2016) [1080p] [WEBRip] [YTS.MX] (0 subtitles found)
+[2025-07-21 20:42:53] [INFO] [logger.go:190] Dropped torrent for session reset: f4850537-2090-4aa7-935e-dfba0ef01f4a
+[2025-07-21 20:42:53] [INFO] [logger.go:190] Session reset: f4850537-2090-4aa7-935e-dfba0ef01f4a
+[2025-07-21 20:42:54] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:7ddc1633f2a6b22003ac4c8cf24d66... (Session: 5db00079-ed85-427d-be7e-52ef8625f469)
+[2025-07-21 20:42:54] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:43:13] [INFO] [logger.go:190] Got torrent info: Richard Linklater Dream Is Destiny (2016) [1080p] [WEBRip] [YTS.MX]
+[2025-07-21 20:43:13] [INFO] [logger.go:190] Found video file: Richard Linklater Dream Is Destiny (2016) [1080p] [WEBRip] [YTS.MX]/Richard.Linklater.Dream.Is.Destiny.2016.1080p.WEBRip.x264.AAC-[YTS.MX].mp4 (1536.95 MB)
+[2025-07-21 20:43:13] [INFO] [logger.go:190] Stream ready for: Richard Linklater Dream Is Destiny (2016) [1080p] [WEBRip] [YTS.MX] (0 subtitles found)
+[2025-07-21 20:43:44] [WARN] [logger.go:194] Video request for non-existent session: f4850537-2090-4aa7-935e-dfba0ef01f4a
+[2025-07-21 20:58:54] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:A59D4D7174E566C18F06E32DD23E87... (Session: 5db00079-ed85-427d-be7e-52ef8625f469)
+[2025-07-21 20:58:54] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 20:59:04] [INFO] [logger.go:190] Got torrent info: Jokes Cigarettes (2023) [CATALAN] [1080p] [BluRay] [5.1] [YTS.MX]
+[2025-07-21 20:59:04] [INFO] [logger.go:190] Found video file: Jokes Cigarettes (2023) [CATALAN] [1080p] [BluRay] [5.1] [YTS.MX]/Jokes.Cigarettes.2023.CATALAN.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4 (2222.12 MB)
+[2025-07-21 20:59:04] [INFO] [logger.go:190] Stream ready for: Jokes Cigarettes (2023) [CATALAN] [1080p] [BluRay] [5.1] [YTS.MX] (0 subtitles found)
+[2025-07-21 21:05:58] [WARN] [logger.go:194] PANIC RECOVERED in session-cleanup: already closed
+[2025-07-21 21:10:54] [INFO] [logger.go:190] === Torrent Streamer API Starting ===
+[2025-07-21 21:10:54] [INFO] [logger.go:190] Torrent client initialized successfully
+[2025-07-21 21:10:54] [INFO] [logger.go:190] HTTP routes configured successfully
+[2025-07-21 21:10:54] [INFO] [logger.go:190] All necessary directories created
+[2025-07-21 21:10:54] [INFO] [logger.go:190] API Server starting on http://localhost:8080
+[2025-07-21 21:11:24] [INFO] [logger.go:190] Application startup successful
+[2025-07-21 21:16:10] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:C30D11150EAB0BB6EBA1C7F84425DC... (Session: 5db00079-ed85-427d-be7e-52ef8625f469)
+[2025-07-21 21:16:10] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:16:14] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 21:16:14] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 21:16:14] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 21:21:59] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:818743465990906A84A82D1D282EB0... (Session: 5db00079-ed85-427d-be7e-52ef8625f469)
+[2025-07-21 21:21:59] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:22:03] [INFO] [logger.go:190] Got torrent info: The Insomniac (1971) [1080p] [BluRay] [YTS.MX]
+[2025-07-21 21:22:03] [INFO] [logger.go:190] Found video file: The Insomniac (1971) [1080p] [BluRay] [YTS.MX]/The.Insomniac.1971.1080p.BluRay.x264.AAC-[YTS.MX].mp4 (759.40 MB)
+[2025-07-21 21:22:03] [INFO] [logger.go:190] Stream ready for: The Insomniac (1971) [1080p] [BluRay] [YTS.MX] (0 subtitles found)
+[2025-07-21 21:27:13] [INFO] [logger.go:190] Dropped torrent for session reset: 5db00079-ed85-427d-be7e-52ef8625f469
+[2025-07-21 21:27:13] [INFO] [logger.go:190] Session reset: 5db00079-ed85-427d-be7e-52ef8625f469
+[2025-07-21 21:27:13] [WARN] [logger.go:194] Video request for non-existent session: 5db00079-ed85-427d-be7e-52ef8625f469
+[2025-07-21 21:30:53] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:6821D18DC796791FBA5DC13EF1D336... (Session: f7bce866-f2f7-4043-8ae6-dbbab307a74b)
+[2025-07-21 21:30:53] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:30:56] [INFO] [logger.go:190] Got torrent info: Space Jump How Red Bull Stratos Captured The Worlds Attention (2022) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 21:30:56] [INFO] [logger.go:190] Found video file: Space Jump How Red Bull Stratos Captured The Worlds Attention (2022) [720p] [WEBRip] [YTS.MX]/Space.Jump.How.Red.Bull.Stratos.Captured.The.Worlds.Attention.2022.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (443.51 MB)
+[2025-07-21 21:30:56] [INFO] [logger.go:190] Stream ready for: Space Jump How Red Bull Stratos Captured The Worlds Attention (2022) [720p] [WEBRip] [YTS.MX] (0 subtitles found)
+[2025-07-21 21:31:47] [INFO] [logger.go:190] Dropped torrent for session reset: f7bce866-f2f7-4043-8ae6-dbbab307a74b
+[2025-07-21 21:31:47] [INFO] [logger.go:190] Session reset: f7bce866-f2f7-4043-8ae6-dbbab307a74b
+[2025-07-21 21:31:48] [WARN] [logger.go:194] Video request for non-existent session: f7bce866-f2f7-4043-8ae6-dbbab307a74b
+[2025-07-21 21:42:54] [INFO] [logger.go:190] Session reset: a636a816-5ddf-449a-a692-5b57f65d7887
+[2025-07-21 21:44:04] [INFO] [logger.go:190] Session reset: d7368526-d7b0-4419-a766-116dc8e91e9a
+[2025-07-21 21:44:34] [INFO] [logger.go:190] Session reset: 01caa286-d543-4622-8c7c-93be0e6059dc
+[2025-07-21 21:44:39] [INFO] [logger.go:190] Session reset: 5fdf9d9d-a57c-4dad-a656-c2b192239b26
+[2025-07-21 21:45:09] [INFO] [logger.go:190] Session reset: f49cd681-e11d-445b-b4c8-a68b6fe8a606
+[2025-07-21 21:45:20] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:818743465990906A84A82D1D282EB0... (Session: 5e6e8997-75ed-497f-aa50-419e1ee627c8)
+[2025-07-21 21:45:20] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:45:22] [INFO] [logger.go:190] Got torrent info: The Insomniac (1971) [1080p] [BluRay] [YTS.MX]
+[2025-07-21 21:45:22] [INFO] [logger.go:190] Found video file: The Insomniac (1971) [1080p] [BluRay] [YTS.MX]/The.Insomniac.1971.1080p.BluRay.x264.AAC-[YTS.MX].mp4 (759.40 MB)
+[2025-07-21 21:45:22] [INFO] [logger.go:190] Stream ready for: The Insomniac (1971) [1080p] [BluRay] [YTS.MX] (0 subtitles found)
+[2025-07-21 21:45:36] [INFO] [logger.go:190] Dropped torrent for session reset: 5e6e8997-75ed-497f-aa50-419e1ee627c8
+[2025-07-21 21:45:36] [INFO] [logger.go:190] Session reset: 5e6e8997-75ed-497f-aa50-419e1ee627c8
+[2025-07-21 21:45:36] [WARN] [logger.go:194] Video request for non-existent session: 5e6e8997-75ed-497f-aa50-419e1ee627c8
+[2025-07-21 21:45:45] [INFO] [logger.go:190] Session reset: a09ca2ac-7e94-46ea-a726-5e7bf702586e
+[2025-07-21 21:47:02] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:C69A6B2C8F17E62C159D054D233FE3... (Session: d135e352-c591-46e1-92a4-33906b92c725)
+[2025-07-21 21:47:02] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:47:05] [INFO] [logger.go:190] Got torrent info: Marea Pescuiala (2025) [1080p] [WEBRip] [YTS.MX]
+[2025-07-21 21:47:05] [INFO] [logger.go:190] Found video file: Marea Pescuiala (2025) [1080p] [WEBRip] [YTS.MX]/Marea.Pescuiala.2025.1080p.WEBRip.x264.AAC-[YTS.MX].mp4 (1403.09 MB)
+[2025-07-21 21:47:05] [INFO] [logger.go:190] Stream ready for: Marea Pescuiala (2025) [1080p] [WEBRip] [YTS.MX] (0 subtitles found)

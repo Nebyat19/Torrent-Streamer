@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TorrentStreamer - Enterprise Torrent Streaming</title>
+    <title>CinemaStream - Watch Movies Online</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="a streaming torrent client that allows users to play torrents directly in their web browser">
+    <meta name="description" content="Stream HD movies and TV shows instantly with CinemaStream">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
@@ -16,24 +16,58 @@
         <!-- Header -->
         <header class="header">
             <div class="header-content">
-                <a href="#" class="logo">
+                <a href="#" class="logo" onclick="showSection('browse')">
                     <div class="logo-icon">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M8 5v14l11-7z"/>
                         </svg>
                     </div>
-                    TorrentStreamer
+                    <span class="logo-text">CinemaStream</span>
                 </a>
                 
+                <nav class="header-nav">
+                    <ul class="nav-links">
+                        <li><a href="#" class="nav-link active" onclick="showSection('browse')" data-section="browse">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                            Movies
+                        </a></li>
+                        <li><a href="#" class="nav-link" onclick="(()=>{ showSection('manual')})()" data-section="manual">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                            </svg>
+                            Custom
+                        </a></li>
+                        <li><a href="#" class="nav-link" onclick="showSection('player')" data-section="player">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Player
+                        </a></li>
+                    </ul>
+                </nav>
 
                 <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" id="headerSearch" class="header-search" placeholder="Search movies...">
+                        <button class="search-btn" onclick="headerSearch()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </button>
+                    </div>
                     <button onclick="resetSession()" class="btn-reset">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="23,4 23,10 17,10"></polyline>
                             <polyline points="1,20 1,14 7,14"></polyline>
                             <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
                         </svg>
-                        New Session
+                        Clear Session
                     </button>
                     <div class="user-menu">
                         <div class="user-avatar">
@@ -47,287 +81,353 @@
             </div>
         </header>
 
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-content">
-                <h1 class="hero-title">Stream Anywhere, Anytime</h1>
-                <p class="hero-subtitle">Professional torrent streaming platform designed for You and Myslef. High-quality streaming with Amazing features.</p>
-                
-                <div class="hero-features">
-                    <div class="hero-feature">
-                        <div class="hero-feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                                <line x1="9" y1="9" x2="9.01" y2="9"></line>
-                                <line x1="15" y1="9" x2="15.01" y2="9"></line>
-                            </svg>
-                        </div>
-                        <h3>HD Quality</h3>
-                        <p>Stream in high definition with adaptive quality</p>
-                    </div>
-                    <div class="hero-feature">
-                        <div class="hero-feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                                <line x1="8" y1="21" x2="16" y2="21"></line>
-                                <line x1="12" y1="17" x2="12" y2="21"></line>
-                            </svg>
-                        </div>
-                        <h3>Multi-Device</h3>
-                        <p>Access from any device, anywhere</p>
-                    </div>
-                    <div class="hero-feature">
-                        <div class="hero-feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-                            </svg>
-                        </div>
-                        <h3>Subtitles</h3>
-                        <p>Multi-language subtitle support</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Stats Section 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="activeStreams">0</div>
-                    <div class="stat-label">Active Streams</div>
+            <!-- Browse Movies Section -->
+            <section id="browseSection" class="content-section active">
+                <!-- Hero Banner -->
+                <div class="hero-banner" id="heroBanner">
+                    <div class="hero-background">
+                        <div class="hero-overlay"></div>
+                        <img id="heroImage" src="/hero-placeholder.png" alt="Featured Movie" class="hero-bg-image">
+                    </div>
+                    <div class="hero-content">
+                        <div class="hero-badge">Featured Movie</div>
+                        <h1 id="heroTitle" class="hero-title">Discover Amazing Movies</h1>
+                        <p id="heroDescription" class="hero-description">Stream thousands of HD movies instantly. From blockbusters to indie films, find your next favorite movie.</p>
+                        <div class="hero-actions">
+                            <button id="heroPlayBtn" class="hero-btn hero-btn-primary" onclick="scrollToMovies()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                Browse Movies
+                            </button>
+                            <button class="hero-btn hero-btn-secondary" onclick="showSection('manual')">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                </svg>
+                                Custom Stream
+                            </button>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="hero-stat">
+                                <span class="stat-number">10K+</span>
+                                <span class="stat-label">Movies</span>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="stat-number">4K</span>
+                                <span class="stat-label">Quality</span>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="stat-number">24/7</span>
+                                <span class="stat-label">Streaming</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalUsers">1</div>
-                    <div class="stat-label">Connected Users</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="dataTransferred">0 GB</div>
-                    <div class="stat-label">Data Streamed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="uptime">99.9%</div>
-                    <div class="stat-label">Uptime</div>
-                </div>
-            </div> -->
 
-            <!-- Stream Section -->
-            <section class="section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="section-title">Start New Stream</h2>
-                        <p class="section-subtitle">Enter a magnet link to begin streaming content</p>
-                    </div>
-                </div>
-                
-                <form id="streamForm">
-                    <div class="form-group">
-                        <label for="magnet" class="form-label">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                            </svg>
-                            Magnet Link
-                        </label>
-                        <div class="input-container">
-                            <input type="text" id="magnet" name="magnet" class="form-input" required
-                                   placeholder="magnet:?xt=urn:btih:...">
-                            <div class="input-actions">
-                                <button type="button" class="input-btn" onclick="pasteMagnetLink()" title="Paste from clipboard">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="8" y="8" width="12" height="12" rx="2"></rect>
-                                        <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path>
+                <!-- Movie Filters -->
+                <div class="filters-section">
+                    <div class="filters-container">
+                        <div class="filters-header">
+                            <h2 class="filters-title">Browse Movies</h2>
+                            <div class="view-toggle">
+                                <button class="view-btn active" onclick="setGridView('grid')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="7" height="7"></rect>
+                                        <rect x="14" y="3" width="7" height="7"></rect>
+                                        <rect x="14" y="14" width="7" height="7"></rect>
+                                        <rect x="3" y="14" width="7" height="7"></rect>
                                     </svg>
                                 </button>
-                                <button type="button" class="input-btn" onclick="clearMagnetLink()" title="Clear input">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                <button class="view-btn" onclick="setGridView('list')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
                                     </svg>
                                 </button>
                             </div>
                         </div>
-                    </div>
-                    <button type="submit" id="streamBtn" class="btn btn-primary">
-                        <span id="btnText">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8 5v14l11-7z"/>
-                            </svg>
-                            Start Streaming
-                        </span>
-                        <div id="btnLoader" class="loader" style="display: none;"></div>
-                    </button>
-                </form>
-            </section>
+                        
+                        <div class="filters-row">
+                            <div class="filter-group">
+                                <select id="genreFilter" class="filter-select" onchange="filterMovies()">
+                                    <option value="">All Genres</option>
+                                    <option value="action">Action</option>
+                                    <option value="adventure">Adventure</option>
+                                    <option value="animation">Animation</option>
+                                    <option value="comedy">Comedy</option>
+                                    <option value="crime">Crime</option>
+                                    <option value="drama">Drama</option>
+                                    <option value="fantasy">Fantasy</option>
+                                    <option value="horror">Horror</option>
+                                    <option value="mystery">Mystery</option>
+                                    <option value="romance">Romance</option>
+                                    <option value="sci-fi">Sci-Fi</option>
+                                    <option value="thriller">Thriller</option>
+                                </select>
+                            </div>
 
-            <!-- Status Section -->
-            <section class="section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="section-title">Stream Status</h2>
-                        <p class="section-subtitle">Current streaming status and progress</p>
-                    </div>
-                </div>
+                            <div class="filter-group">
+                                <select id="qualityFilter" class="filter-select" onchange="filterMovies()">
+                                    <option value="">All Quality</option>
+                                    <option value="720p">720p HD</option>
+                                    <option value="1080p">1080p FHD</option>
+                                    <option value="2160p">4K UHD</option>
+                                    <option value="3D">3D</option>
+                                </select>
+                            </div>
 
-                <div class="status-card">
-                    <svg class="status-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="16" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                    </svg>
-                    <span id="statusText" class="status-text">Ready to stream</span>
-                </div>
+                            <div class="filter-group">
+                                <select id="ratingFilter" class="filter-select" onchange="filterMovies()">
+                                    <option value="0">All Ratings</option>
+                                    <option value="7">7+ IMDb</option>
+                                    <option value="8">8+ IMDb</option>
+                                    <option value="9">9+ IMDb</option>
+                                </select>
+                            </div>
 
-                <div id="progressSection" class="progress-section" style="display: none;">
-                    <div id="progressContainer" class="progress-container">
-                        <div id="progressBar" class="progress-bar" style="width: 0%"></div>
-                    </div>
-                    <div id="progressText" class="progress-text">0% downloaded</div>
-                </div>
-            </section>
-
-            <!-- Media Section -->
-            <section id="mediaSection" class="section" style="display: none;">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="section-title">Now Playing</h2>
-                        <p class="section-subtitle">Currently streaming content</p>
-                    </div>
-                </div>
-                
-                <div id="fileInfo" class="file-info">
-                    <div class="file-info-item">
-                        <svg class="file-info-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
-                        <div>
-                            <div class="file-info-value" id="fileType">-</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Format</div>
-                        </div>
-                    </div>
-                    <div class="file-info-item">
-                        <svg class="file-info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14,2 14,8 20,8"></polyline>
-                        </svg>
-                        <div>
-                            <div class="file-info-value" id="fileSize">-</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">File Size</div>
-                        </div>
-                    </div>
-                    <div class="file-info-item">
-                        <svg class="file-info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12,6 12,12 16,14"></polyline>
-                        </svg>
-                        <div>
-                            <div class="file-info-value" id="streamTime">00:00</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Duration</div>
-                        </div>
-                    </div>
-                    <div class="file-info-item">
-                        <svg class="file-info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                            <path d="M2 17l10 5 10-5"></path>
-                            <path d="M2 12l10 5 10-5"></path>
-                        </svg>
-                        <div>
-                            <div class="file-info-value" id="quality">HD</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Quality</div>
+                            <div class="filter-group">
+                                <select id="sortFilter" class="filter-select" onchange="filterMovies()">
+                                    <option value="date_added">Latest</option>
+                                    <option value="year">Year</option>
+                                    <option value="rating">Rating</option>
+                                    <option value="title">Title</option>
+                                    <option value="download_count">Popular</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div id="videoContainer" class="video-container">
-                    <video controls autoplay id="videoPlayer" class="video-player" crossorigin="anonymous" preload="metadata">
-                        <track kind="subtitles" id="subtitleTrack" label="None" srclang="none" default>
-                        Your browser does not support HTML5 video.
-                    </video>
-                </div>
-            </section>
-
-            <!-- Subtitle Section -->
-            <section id="subtitleSection" class="section" style="display: none;">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-                        </svg>
+                <!-- Movies Grid -->
+                <div class="movies-section" id="moviesSection">
+                    <div id="moviesLoading" class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <p>Loading amazing movies...</p>
                     </div>
-                    <div>
-                        <h2 class="section-title">Subtitles & Captions</h2>
-                        <p class="section-subtitle">Manage subtitle tracks and upload custom files</p>
-                    </div>
-                </div>
-                
-                <div id="subtitleControls" class="subtitle-controls">
-                    <button class="btn btn-secondary active" onclick="setSubtitle('none')">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="m9 9 3 3m0 0 3-3m-3 3V4m0 5H4m16 0h-4"></path>
-                        </svg>
-                        None
-                    </button>
-                </div>
 
-                <div class="subtitle-upload">
-                    <label class="form-label">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7,10 12,15 17,10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                        Upload Custom Subtitles
-                    </label>
-                    <div class="upload-area">
-                        <div class="file-input-wrapper">
-                            <input type="file" id="subtitleFile" class="file-input" accept=".srt,.vtt,.ass">
-                            <label for="subtitleFile" class="file-input-label">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="7,10 12,15 17,10"></polyline>
-                                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                                </svg>
-                                Choose Subtitle File
-                            </label>
-                        </div>
-                        <button onclick="uploadSubtitle()" class="btn btn-secondary">
+                    <div id="moviesGrid" class="movies-grid"></div>
+
+                    <div id="moviesPagination" class="pagination">
+                        <button id="prevPage" class="pagination-btn" onclick="changePage(-1)">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="17,8 12,3 7,8"></polyline>
-                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                                <polyline points="15,18 9,12 15,6"></polyline>
                             </svg>
-                            Upload Subtitle
+                            Previous
+                        </button>
+                        <span id="pageInfo" class="page-info">Page 1</span>
+                        <button id="nextPage" class="pagination-btn" onclick="changePage(1)">
+                            Next
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9,18 15,12 9,6"></polyline>
+                            </svg>
                         </button>
                     </div>
                 </div>
             </section>
+
+            <!-- Manual Stream Section -->
+            <section id="manualSection" class="content-section">
+                <div class="manual-hero">
+                    <div class="manual-hero-bg">
+                        <div class="manual-hero-overlay"></div>
+                    </div>
+                    <div class="manual-hero-content">
+                        <h1 class="manual-title">Custom Streaming</h1>
+                        <p class="manual-subtitle">Have a magnet link? Stream any content directly</p>
+                    </div>
+                </div>
+
+                <div class="manual-form-section">
+                    <div class="manual-form-container">
+                        <form id="streamForm" class="stream-form">
+                            <div class="form-group">
+                                <label for="magnet" class="form-label">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                    </svg>
+                                    Magnet Link
+                                </label>
+                                <div class="input-container">
+                                    <input type="text" id="magnet" name="magnet" class="form-input" required
+                                           placeholder="magnet:?xt=urn:btih:...">
+                                    <div class="input-actions">
+                                        <button type="button" class="input-btn" onclick="pasteMagnetLink()" title="Paste from clipboard">
+                                            <svg viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="2">
+                                                <rect x="8" y="8" width="12" height="12" rx="2" />
+                                                <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" />
+                                              </svg>
+                                        </button>
+                                        <button type="button" class="input-btn" onclick="clearMagnetLink()" title="Clear input">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" id="streamBtn" class="btn btn-primary stream-btn">
+                                <span id="btnText">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                    Start Streaming
+                                </span>
+                                <div id="btnLoader" class="loader" style="display: none;"></div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Player Section -->
+            <section id="playerSection" class="content-section">
+                <div class="player-hero">
+                    <div class="player-hero-bg">
+                        <div class="player-hero-overlay"></div>
+                    </div>
+                    <div class="player-hero-content">
+                        <h1 class="player-title">Now Streaming</h1>
+                        <div class="status-card">
+                            <div class="status-indicator">
+                                <div class="status-dot"></div>
+                            </div>
+                            <span id="statusText" class="status-text">Ready to stream</span>
+                        </div>
+                    </div>
+                </div>
+
+          
+
+                <!-- Media Section -->
+                <div id="mediaSection" class="media-section" style="display: none;">
+                    <div class="media-container">
+                        <div class="media-header">
+                            <h2 class="media-title">Now Playing</h2>
+                            <div id="fileInfo" class="file-info">
+                                <div class="file-info-item">
+                                    <span class="file-info-label">Format:</span>
+                                    <span id="fileType" class="file-info-value">-</span>
+                                </div>
+                                <div class="file-info-item">
+                                    <span class="file-info-label">Size:</span>
+                                    <span id="fileSize" class="file-info-value">-</span>
+                                </div>
+                                <div class="file-info-item">
+                                    <span class="file-info-label">Quality:</span>
+                                    <span id="quality" class="file-info-value">HD</span>
+                                </div>
+                                <div class="file-info-item">
+                                    <span class="file-info-label">Duration:</span>
+                                    <span id="streamTime" class="file-info-value">00:00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="videoContainer" class="video-container">
+                            <video controls autoplay id="videoPlayer" class="video-player" crossorigin="anonymous" preload="metadata">
+                                <track kind="subtitles" id="subtitleTrack" label="None" srclang="none" default>
+                                Your browser does not support HTML5 video.
+                            </video>
+                        </div>
+
+                        <!-- Subtitle Section -->
+                        <div id="subtitleSection" class="subtitle-section">
+                            <div class="subtitle-header">
+                                <h3 class="subtitle-title">Subtitles & Captions</h3>
+                            </div>
+                            
+                            <div id="subtitleControls" class="subtitle-controls">
+                                <button class="subtitle-btn active" onclick="setSubtitle('none')">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="m9 9 3 3m0 0 3-3m-3 3V4m0 5H4m16 0h-4"></path>
+                                    </svg>
+                                    None
+                                </button>
+                            </div>
+
+                            <div class="subtitle-upload">
+                                <div class="upload-area">
+                                    <div class="file-input-wrapper">
+                                        <input type="file" id="subtitleFile" class="file-input" accept=".srt,.vtt,.ass">
+                                        <label for="subtitleFile" class="file-input-label">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                                <polyline points="7,10 12,15 17,10"></polyline>
+                                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                                            </svg>
+                                            <span>Upload Custom Subtitles</span>
+                                        </label>
+                                    </div>
+                                    <button onclick="uploadSubtitle()" class="upload-btn">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="17,8 12,3 7,8"></polyline>
+                                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                                        </svg>
+                                        Upload
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
+
+        <!-- Movie Details Modal -->
+        <div id="movieModal" class="modal">
+            <div class="modal-backdrop" onclick="closeMovieModal()"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="modal-close" onclick="closeMovieModal()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="movie-details">
+                        <div class="movie-poster-section">
+                            <img id="modalPoster" src="/placeholder.svg" alt="Movie Poster" class="modal-poster">
+                        </div>
+                        <div class="movie-info-section">
+                            <h2 id="modalTitle" class="modal-movie-title"></h2>
+                            <div class="movie-meta">
+                                <span id="modalYear" class="movie-year-badge"></span>
+                                <span id="modalRating" class="movie-rating-badge"></span>
+                                <span id="modalRuntime" class="movie-runtime-badge"></span>
+                            </div>
+                            <div id="modalGenres" class="movie-genres"></div>
+                            <p id="modalSummary" class="movie-summary"></p>
+                            <div class="torrents-section">
+                                <h3 class="torrents-title">Available Qualities</h3>
+                                <div id="modalTorrents" class="movie-torrents"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Notification -->
     <div id="notification" class="notification">
-        <svg class="notification-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20,6 9,17 4,12"></polyline>
-        </svg>
+        <div class="notification-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20,6 9,17 4,12"></polyline>
+            </svg>
+        </div>
         <span id="notificationText" class="notification-text"></span>
     </div>
 
