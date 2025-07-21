@@ -560,6 +560,7 @@ class TorrentStreamer {
     }
   
     async streamMovie(movieId, hash, quality, title) {
+       
         let magneticLink =`magnet:?xt=urn:btih:${hash}&dn=${title}&tr=http://track.one:1234/announce&tr=udp://track.two:80`
       try {
         const response = await fetch(`${this.apiBase}/stream`, {
@@ -577,8 +578,11 @@ class TorrentStreamer {
         })
   
         const result = await response.json()
+        let statusText = document.getElementById("statusText")
   
         if (result.success) {
+            
+          statusText.textContent="Processing..."
           this.closeMovieModal()
           this.showSection("player")
           this.showNotification(`🎬 Starting ${title} (${quality})`, "success")
@@ -588,6 +592,7 @@ class TorrentStreamer {
         }
       } catch (error) {
         console.error("Stream movie error:", error)
+        statusText.textContent="Stream movie error:"
         this.showNotification("Network error occurred", "error")
       }
     }
@@ -721,10 +726,7 @@ class TorrentStreamer {
         }
       }
   
-      if (data.magnet) {
-        document.getElementById("magnet").value = data.magnet
-      }
-  
+   
     
   
       const mediaSection = document.getElementById("mediaSection")

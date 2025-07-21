@@ -382,3 +382,117 @@
 [2025-07-21 21:47:05] [INFO] [logger.go:190] Got torrent info: Marea Pescuiala (2025) [1080p] [WEBRip] [YTS.MX]
 [2025-07-21 21:47:05] [INFO] [logger.go:190] Found video file: Marea Pescuiala (2025) [1080p] [WEBRip] [YTS.MX]/Marea.Pescuiala.2025.1080p.WEBRip.x264.AAC-[YTS.MX].mp4 (1403.09 MB)
 [2025-07-21 21:47:05] [INFO] [logger.go:190] Stream ready for: Marea Pescuiala (2025) [1080p] [WEBRip] [YTS.MX] (0 subtitles found)
+[2025-07-21 21:47:57] [INFO] [logger.go:190] Dropped torrent for session reset: d135e352-c591-46e1-92a4-33906b92c725
+[2025-07-21 21:47:57] [INFO] [logger.go:190] Session reset: d135e352-c591-46e1-92a4-33906b92c725
+[2025-07-21 21:47:57] [WARN] [logger.go:194] Video request for non-existent session: d135e352-c591-46e1-92a4-33906b92c725
+[2025-07-21 21:48:17] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:FF7F5A8169E9B1E1E304CE7EFC62E9... (Session: 27a7e1d3-8153-470f-8636-2288fca58573)
+[2025-07-21 21:48:17] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:48:23] [INFO] [logger.go:190] Got torrent info: Triple Threat (2020) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 21:48:23] [INFO] [logger.go:190] Found video file: Triple Threat (2020) [720p] [WEBRip] [YTS.MX]/Triple.Threat.2020.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (913.26 MB)
+[2025-07-21 21:48:23] [INFO] [logger.go:190] Stream ready for: Triple Threat (2020) [720p] [WEBRip] [YTS.MX] (1 subtitles found)
+[2025-07-21 21:48:39] [INFO] [logger.go:190] Dropped torrent for session reset: 27a7e1d3-8153-470f-8636-2288fca58573
+[2025-07-21 21:48:39] [INFO] [logger.go:190] Session reset: 27a7e1d3-8153-470f-8636-2288fca58573
+[2025-07-21 21:48:39] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:ff7f5a8169e9b1e1e304ce7efc62e9... (Session: 4c96fb91-6d0d-4c31-a632-6a56dde33f78)
+[2025-07-21 21:48:39] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:48:42] [INFO] [logger.go:190] Got torrent info: Triple Threat (2020) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 21:48:42] [INFO] [logger.go:190] Found video file: Triple Threat (2020) [720p] [WEBRip] [YTS.MX]/Triple.Threat.2020.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (913.26 MB)
+[2025-07-21 21:48:42] [INFO] [logger.go:190] Stream ready for: Triple Threat (2020) [720p] [WEBRip] [YTS.MX] (1 subtitles found)
+[2025-07-21 21:50:54] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:C62315B7E811B35E247AA47404E412... (Session: 4c96fb91-6d0d-4c31-a632-6a56dde33f78)
+[2025-07-21 21:50:54] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:50:59] [INFO] [logger.go:190] Got torrent info: Superbad (2007) [UNRATED] [1080p] [BluRay] [5.1] [YTS.MX]
+[2025-07-21 21:50:59] [INFO] [logger.go:190] Found video file: Superbad (2007) [UNRATED] [1080p] [BluRay] [5.1] [YTS.MX]/Superbad.2007.UNRATED.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4 (2239.68 MB)
+[2025-07-21 21:50:59] [INFO] [logger.go:190] Stream ready for: Superbad (2007) [UNRATED] [1080p] [BluRay] [5.1] [YTS.MX] (0 subtitles found)
+[2025-07-21 21:51:09] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:CAD6996965C31F8AE11E8496C12CF8... (Session: 4c96fb91-6d0d-4c31-a632-6a56dde33f78)
+[2025-07-21 21:51:09] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:51:12] [INFO] [logger.go:190] Got torrent info: Superbad (2007) [2160p] [4K] [BluRay] [5.1] [YTS.MX]
+[2025-07-21 21:51:12] [INFO] [logger.go:190] Found video file: Superbad (2007) [2160p] [4K] [BluRay] [5.1] [YTS.MX]/Superbad.2007.2160p.4K.BluRay.x265.10bit.AAC5.1-[YTS.MX].mkv (5167.26 MB)
+[2025-07-21 21:51:12] [INFO] [logger.go:190] Stream ready for: Superbad (2007) [2160p] [4K] [BluRay] [5.1] [YTS.MX] (0 subtitles found)
+[2025-07-21 21:51:25] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:5A4140BD59D66BCAC57CF05AF4A8FA... (Session: 4c96fb91-6d0d-4c31-a632-6a56dde33f78)
+[2025-07-21 21:51:25] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:51:31] [INFO] [logger.go:190] Got torrent info: Avengers Endgame (2019) [BluRay] [720p] [YTS.LT]
+[2025-07-21 21:51:31] [INFO] [logger.go:190] Found video file: Avengers Endgame (2019) [BluRay] [720p] [YTS.LT]/Avengers.Endgame.2019.720p.BluRay.x264-[YTS.LT].mp4 (1463.35 MB)
+[2025-07-21 21:51:31] [INFO] [logger.go:190] Stream ready for: Avengers Endgame (2019) [BluRay] [720p] [YTS.LT] (0 subtitles found)
+[2025-07-21 21:54:36] [INFO] [logger.go:190] Dropped torrent for session reset: 4c96fb91-6d0d-4c31-a632-6a56dde33f78
+[2025-07-21 21:54:36] [INFO] [logger.go:190] Session reset: 4c96fb91-6d0d-4c31-a632-6a56dde33f78
+[2025-07-21 21:54:37] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:5a4140bd59d66bcac57cf05af4a8fa... (Session: e22f9988-f255-4c0d-b272-f93a280e22a6)
+[2025-07-21 21:54:37] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:54:47] [INFO] [logger.go:190] Got torrent info: Avengers Endgame (2019) [BluRay] [720p] [YTS.LT]
+[2025-07-21 21:54:47] [INFO] [logger.go:190] Found video file: Avengers Endgame (2019) [BluRay] [720p] [YTS.LT]/Avengers.Endgame.2019.720p.BluRay.x264-[YTS.LT].mp4 (1463.35 MB)
+[2025-07-21 21:54:47] [INFO] [logger.go:190] Stream ready for: Avengers Endgame (2019) [BluRay] [720p] [YTS.LT] (0 subtitles found)
+[2025-07-21 21:54:47] [WARN] [logger.go:194] Video request for non-existent session: 4c96fb91-6d0d-4c31-a632-6a56dde33f78
+[2025-07-21 21:55:26] [INFO] [logger.go:190] Session reset: e22f9988-f255-4c0d-b272-f93a280e22a6
+[2025-07-21 21:55:26] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:F9C5B088BCF342B2BF8289EE898DE5... (Session: e22f9988-f255-4c0d-b272-f93a280e22a6)
+[2025-07-21 21:55:26] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:55:40] [INFO] [logger.go:190] Got torrent info: Space Jump How Red Bull Stratos Captured The Worlds Attention (2022) [1080p] [WEBRip] [YTS.MX]
+[2025-07-21 21:55:40] [INFO] [logger.go:190] Found video file: Space Jump How Red Bull Stratos Captured The Worlds Attention (2022) [1080p] [WEBRip] [YTS.MX]/Space.Jump.How.Red.Bull.Stratos.Captured.The.Worlds.Attention.2022.1080p.WEBRip.x264.AAC-[YTS.MX].mp4 (821.46 MB)
+[2025-07-21 21:55:40] [INFO] [logger.go:190] Stream ready for: Space Jump How Red Bull Stratos Captured The Worlds Attention (2022) [1080p] [WEBRip] [YTS.MX] (0 subtitles found)
+[2025-07-21 21:56:09] [INFO] [logger.go:190] Session reset: 37e241df-e27a-4b29-bcae-f90347814307
+[2025-07-21 21:56:09] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:818743465990906A84A82D1D282EB0... (Session: 37e241df-e27a-4b29-bcae-f90347814307)
+[2025-07-21 21:56:09] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 21:56:17] [INFO] [logger.go:190] Got torrent info: The Insomniac (1971) [1080p] [BluRay] [YTS.MX]
+[2025-07-21 21:56:17] [INFO] [logger.go:190] Found video file: The Insomniac (1971) [1080p] [BluRay] [YTS.MX]/The.Insomniac.1971.1080p.BluRay.x264.AAC-[YTS.MX].mp4 (759.40 MB)
+[2025-07-21 21:56:17] [INFO] [logger.go:190] Stream ready for: The Insomniac (1971) [1080p] [BluRay] [YTS.MX] (0 subtitles found)
+[2025-07-21 22:00:07] [INFO] [logger.go:190] Session reset: ef2d58a7-8d6c-4501-a3de-ac18f2ad0100
+[2025-07-21 22:00:07] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:818743465990906A84A82D1D282EB0... (Session: ef2d58a7-8d6c-4501-a3de-ac18f2ad0100)
+[2025-07-21 22:00:07] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:00:07] [INFO] [logger.go:190] Got torrent info: The Insomniac (1971) [1080p] [BluRay] [YTS.MX]
+[2025-07-21 22:00:07] [INFO] [logger.go:190] Found video file: The Insomniac (1971) [1080p] [BluRay] [YTS.MX]/The.Insomniac.1971.1080p.BluRay.x264.AAC-[YTS.MX].mp4 (759.40 MB)
+[2025-07-21 22:00:07] [INFO] [logger.go:190] Stream ready for: The Insomniac (1971) [1080p] [BluRay] [YTS.MX] (0 subtitles found)
+[2025-07-21 22:02:25] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:818743465990906A84A82D1D282EB0... (Session: 71c3b82d-0f73-42a8-be65-f325fe620af9)
+[2025-07-21 22:02:25] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:02:25] [INFO] [logger.go:190] Got torrent info: The Insomniac (1971) [1080p] [BluRay] [YTS.MX]
+[2025-07-21 22:02:25] [INFO] [logger.go:190] Found video file: The Insomniac (1971) [1080p] [BluRay] [YTS.MX]/The.Insomniac.1971.1080p.BluRay.x264.AAC-[YTS.MX].mp4 (759.40 MB)
+[2025-07-21 22:02:25] [INFO] [logger.go:190] Stream ready for: The Insomniac (1971) [1080p] [BluRay] [YTS.MX] (0 subtitles found)
+[2025-07-21 22:02:25] [INFO] [logger.go:190] Dropped torrent for session reset: 71c3b82d-0f73-42a8-be65-f325fe620af9
+[2025-07-21 22:02:25] [INFO] [logger.go:190] Session reset: 71c3b82d-0f73-42a8-be65-f325fe620af9
+[2025-07-21 22:02:45] [INFO] [logger.go:190] Session reset: 1f8e4667-37fb-4f5b-b17b-905412239cb2
+[2025-07-21 22:02:45] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:02BB714677ED14A1E3D0BA6E29E3A7... (Session: 1f8e4667-37fb-4f5b-b17b-905412239cb2)
+[2025-07-21 22:02:45] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:02:52] [INFO] [logger.go:190] Got torrent info: Cuffin Season (2022) [1080p] [WEBRip] [YTS.MX]
+[2025-07-21 22:02:52] [INFO] [logger.go:190] Found video file: Cuffin Season (2022) [1080p] [WEBRip] [YTS.MX]/Cuffin.Season.2022.1080p.WEBRip.x264.AAC-[YTS.MX].mp4 (1752.79 MB)
+[2025-07-21 22:02:52] [INFO] [logger.go:190] Stream ready for: Cuffin Season (2022) [1080p] [WEBRip] [YTS.MX] (1 subtitles found)
+[2025-07-21 22:03:41] [INFO] [logger.go:190] Session reset: 9a90eb54-6526-4476-90ff-dc3111f1b402
+[2025-07-21 22:03:41] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:34AE616295371B852984D96D116A6E... (Session: 9a90eb54-6526-4476-90ff-dc3111f1b402)
+[2025-07-21 22:03:41] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:03:51] [INFO] [logger.go:190] Got torrent info: Deadpool 2 (2018) [SUPER DUPER CUT UNRATED] [2160p] [4K] [BluRay] [5.1] [YTS.MX]
+[2025-07-21 22:03:51] [INFO] [logger.go:190] Found video file: Deadpool 2 (2018) [SUPER DUPER CUT UNRATED] [2160p] [4K] [BluRay] [5.1] [YTS.MX]/Deadpool.2.2018.SUPER.DUPER.CUT.UNRATED.2160p.4K.BluRay.x265.10bit.AAC5.1-[YTS.MX].mkv (6237.26 MB)
+[2025-07-21 22:03:51] [INFO] [logger.go:190] Stream ready for: Deadpool 2 (2018) [SUPER DUPER CUT UNRATED] [2160p] [4K] [BluRay] [5.1] [YTS.MX] (0 subtitles found)
+[2025-07-21 22:04:46] [INFO] [logger.go:190] Session reset: 8848e95e-2846-4d25-a1c4-b0db83ef06ad
+[2025-07-21 22:04:46] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:35D468694D0466D73A36730E50FFA7... (Session: 8848e95e-2846-4d25-a1c4-b0db83ef06ad)
+[2025-07-21 22:04:46] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:05:16] [ERROR] [logger.go:198] Timeout waiting for torrent info
+[2025-07-21 22:05:28] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:AF0301410F39D471763E3286C59F41... (Session: f152adb5-13b0-435d-8d4f-4d60cad88d2f)
+[2025-07-21 22:05:28] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:05:34] [INFO] [logger.go:190] Got torrent info: Who Do I Belong To (2024) [1080p] [WEBRip] [5.1] [YTS.MX]
+[2025-07-21 22:05:34] [INFO] [logger.go:190] Found video file: Who Do I Belong To (2024) [1080p] [WEBRip] [5.1] [YTS.MX]/Who.Do.I.Belong.To.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4 (2129.52 MB)
+[2025-07-21 22:05:34] [INFO] [logger.go:190] Stream ready for: Who Do I Belong To (2024) [1080p] [WEBRip] [5.1] [YTS.MX] (11 subtitles found)
+[2025-07-21 22:06:37] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:ECB51F617BD95E42C294D0C6961B12... (Session: f152adb5-13b0-435d-8d4f-4d60cad88d2f)
+[2025-07-21 22:06:37] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:06:45] [INFO] [logger.go:190] Got torrent info: Superbad Unrated (2007)
+[2025-07-21 22:06:45] [INFO] [logger.go:190] Found video file: Superbad Unrated (2007)/Superbad.2007.Unrated.BrRip.720p.264.YIFY.mp4 (698.46 MB)
+[2025-07-21 22:06:45] [INFO] [logger.go:190] Stream ready for: Superbad Unrated (2007) (1 subtitles found)
+[2025-07-21 22:07:14] [INFO] [logger.go:190] Dropped torrent for session reset: f152adb5-13b0-435d-8d4f-4d60cad88d2f
+[2025-07-21 22:07:14] [INFO] [logger.go:190] Session reset: f152adb5-13b0-435d-8d4f-4d60cad88d2f
+[2025-07-21 22:07:14] [WARN] [logger.go:194] Video request for non-existent session: f152adb5-13b0-435d-8d4f-4d60cad88d2f
+[2025-07-21 22:07:14] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:ecb51f617bd95e42c294d0c6961b12... (Session: 7a2f84f0-4c7d-4797-82ef-17abb56001d1)
+[2025-07-21 22:07:14] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:07:33] [INFO] [logger.go:190] Got torrent info: Superbad Unrated (2007)
+[2025-07-21 22:07:33] [INFO] [logger.go:190] Found video file: Superbad Unrated (2007)/Superbad.2007.Unrated.BrRip.720p.264.YIFY.mp4 (698.46 MB)
+[2025-07-21 22:07:33] [INFO] [logger.go:190] Stream ready for: Superbad Unrated (2007) (1 subtitles found)
+[2025-07-21 22:07:33] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:C30D11150EAB0BB6EBA1C7F84425DC... (Session: 7a2f84f0-4c7d-4797-82ef-17abb56001d1)
+[2025-07-21 22:07:33] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:07:44] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 22:07:44] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 22:07:44] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 22:08:33] [INFO] [logger.go:190] Dropped torrent for session reset: 7a2f84f0-4c7d-4797-82ef-17abb56001d1
+[2025-07-21 22:08:33] [INFO] [logger.go:190] Session reset: 7a2f84f0-4c7d-4797-82ef-17abb56001d1
+[2025-07-21 22:08:34] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:c30d11150eab0bb6eba1c7f84425dc... (Session: cdc2c0e0-e6c8-452c-a532-07131e468ce0)
+[2025-07-21 22:08:34] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:08:53] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
+[2025-07-21 22:08:53] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
+[2025-07-21 22:08:53] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 22:10:44] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:647B653E77C3F2C5562C80B80DA746... (Session: cdc2c0e0-e6c8-452c-a532-07131e468ce0)
+[2025-07-21 22:10:44] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:11:03] [INFO] [logger.go:190] Got torrent info: The Hunger Games Mockingjay - Part 2 (2015) [YTS.AG]
+[2025-07-21 22:11:03] [INFO] [logger.go:190] Found video file: The Hunger Games Mockingjay - Part 2 (2015) [YTS.AG]/The.Hunger.Games.Mockingjay.-.Part.2.2015.720p.BluRay.x264-[YTS.AG].mp4 (1006.54 MB)
+[2025-07-21 22:11:03] [INFO] [logger.go:190] Stream ready for: The Hunger Games Mockingjay - Part 2 (2015) [YTS.AG] (0 subtitles found)
