@@ -504,3 +504,12 @@
 [2025-07-21 22:14:05] [INFO] [logger.go:190] Got torrent info: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]
 [2025-07-21 22:14:05] [INFO] [logger.go:190] Found video file: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4 (1160.41 MB)
 [2025-07-21 22:14:05] [INFO] [logger.go:190] Stream ready for: How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX] (5 subtitles found)
+[2025-07-21 22:20:54] [INFO] [logger.go:190] Cleaned up 1 inactive sessions
+[2025-07-21 22:26:59] [INFO] [logger.go:190] Dropped torrent for session reset: 9629159d-cd73-40e1-9c50-a8d8c56b316c
+[2025-07-21 22:26:59] [INFO] [logger.go:190] Session reset: 9629159d-cd73-40e1-9c50-a8d8c56b316c
+[2025-07-21 22:27:41] [INFO] [logger.go:190] Starting stream for magnet: magnet:?xt=urn:btih:647B653E77C3F2C5562C80B80DA746... (Session: 760a17da-d0c5-4a9b-9c0f-6978ee4a0ae5)
+[2025-07-21 22:27:41] [INFO] [logger.go:190] Torrent added, waiting for info...
+[2025-07-21 22:27:46] [INFO] [logger.go:190] Got torrent info: The Hunger Games Mockingjay - Part 2 (2015) [YTS.AG]
+[2025-07-21 22:27:47] [INFO] [logger.go:190] Found video file: The Hunger Games Mockingjay - Part 2 (2015) [YTS.AG]/The.Hunger.Games.Mockingjay.-.Part.2.2015.720p.BluRay.x264-[YTS.AG].mp4 (1006.54 MB)
+[2025-07-21 22:27:47] [INFO] [logger.go:190] Stream ready for: The Hunger Games Mockingjay - Part 2 (2015) [YTS.AG] (0 subtitles found)
+[2025-07-21 22:30:54] [WARN] [logger.go:194] PANIC RECOVERED in session-cleanup: already closed
