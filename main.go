@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
-	"html/template"
 	"io"
 	"net"
 	"net/http"
@@ -28,14 +28,31 @@ type UserSession struct {
 }
 
 type Subtitle struct {
-	Name string
-	Path string
-	Lang string
+	Name string `json:"name"`
+	Path string `json:"path"`
+	Lang string `json:"lang"`
+}
+
+type APIResponse struct {
+	Success bool        `json:"success"`
+	Message string      `json:"message,omitempty"`
+	Data    interface{} `json:"data,omitempty"`
+	Error   string      `json:"error,omitempty"`
+}
+
+type StreamStatus struct {
+	Status      string     `json:"status"`
+	VideoURL    string     `json:"videoUrl"`
+	Magnet      string     `json:"magnet"`
+	Downloading bool       `json:"downloading"`
+	Progress    float64    `json:"progress"`
+	FileSize    int64      `json:"fileSize"`
+	FileType    string     `json:"fileType"`
+	Subtitles   []Subtitle `json:"subtitles"`
 }
 
 var (
 	client      *torrent.Client
-	tmpl        *template.Template
 	sessions    = make(map[string]*UserSession)
 	sessionLock sync.Mutex
 	appContext  context.Context
@@ -47,7 +64,7 @@ func main() {
 	appContext, appCancel = context.WithCancel(context.Background())
 	defer appCancel()
 
-	logger.Info("=== Torrent Streamer Starting ===")
+	logger.Info("=== Torrent Streamer API Starting ===")
 
 	// Start health monitoring
 	go startHealthMonitor()
@@ -86,7 +103,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	logger.Warn("=== Torrent Streamer Shutting Down ===")
+	logger.Warn("=== Torrent Streamer API Shutting Down ===")
 }
 
 func runApplication() error {
@@ -97,32 +114,20 @@ func runApplication() error {
 		}
 	}()
 
-	// Initialize torrent client with recovery
+	// Initialize torrent client
 	if err := initializeTorrentClient(); err != nil {
 		return fmt.Errorf("failed to initialize torrent client: %v", err)
 	}
 
-	// Initialize template with recovery
-	if err := initializeTemplate(); err != nil {
-		return fmt.Errorf("failed to initialize template: %v", err)
-	}
-
-	// Set up routes with recovery wrappers
+	// Set up routes
 	setupRoutes()
 
-	// Create subtitles directory
-	if err := os.MkdirAll("subtitles", 0755); err != nil {
-		logger.Error("Error creating subtitles directory: %v", err)
-		return err
+	// Create necessary directories
+	if err := createDirectories(); err != nil {
+		return fmt.Errorf("failed to create directories: %v", err)
 	}
 
-	// Create logs directory
-	if err := os.MkdirAll("logs", 0755); err != nil {
-		logger.Error("Error creating logs directory: %v", err)
-		return err
-	}
-
-	// Start HTTP server with recovery
+	// Start HTTP server
 	server := &http.Server{
 		Addr:         ":8080",
 		ReadTimeout:  30 * time.Second,
@@ -133,7 +138,7 @@ func runApplication() error {
 	// Start server in goroutine
 	go func() {
 		defer recoverFromPanic("http-server")
-		logger.Info("Server starting on http://localhost:8080")
+		logger.Info("API Server starting on http://localhost:8080")
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			logger.Error("Server error: %v", err)
 		}
@@ -180,322 +185,384 @@ func initializeTorrentClient() error {
 	return nil
 }
 
-func initializeTemplate() error {
-	// Create template with custom functions
-	tmpl = template.New("index").Funcs(template.FuncMap{
-		"formatFileSize": formatFileSize,
-		"getFileIcon":    getFileIcon,
-		"toUpper":        strings.ToUpper,
-	})
+func createDirectories() error {
+	dirs := []string{"logs", "subtitles", "static"}
 
-	// Parse template
-	var err error
-	tmpl, err = tmpl.Parse(getHTMLTemplate())
-	if err != nil {
-		logger.Error("Error parsing template: %v", err)
-		return err
+	for _, dir := range dirs {
+		if err := os.MkdirAll(dir, 0755); err != nil {
+			logger.Error("Error creating directory %s: %v", dir, err)
+			return err
+		}
 	}
 
-	logger.Info("Template initialized successfully")
+	logger.Info("All necessary directories created")
 	return nil
 }
 
 func setupRoutes() {
-	http.HandleFunc("/", safeHTTPHandler("index", indexHandler))
-	http.HandleFunc("/stream", safeHTTPHandler("stream", streamHandler))
-	http.HandleFunc("/video", safeHTTPHandler("video", videoHandler))
-	http.HandleFunc("/progress", safeHTTPHandler("progress", progressHandler))
-	http.HandleFunc("/subtitle", safeHTTPHandler("subtitle", subtitleHandler))
-	http.HandleFunc("/upload-subtitle", safeHTTPHandler("upload-subtitle", uploadSubtitleHandler))
+	// API routes
+	http.HandleFunc("/api/status", corsHandler(safeHTTPHandler("api-status", apiStatusHandler)))
+	http.HandleFunc("/api/stream", corsHandler(safeHTTPHandler("api-stream", apiStreamHandler)))
+	http.HandleFunc("/api/progress", corsHandler(safeHTTPHandler("api-progress", apiProgressHandler)))
+	http.HandleFunc("/api/upload-subtitle", corsHandler(safeHTTPHandler("api-upload-subtitle", apiUploadSubtitleHandler)))
+
+	// Media serving routes
+	http.HandleFunc("/video", corsHandler(safeHTTPHandler("video", videoHandler)))
+	http.HandleFunc("/subtitle", corsHandler(safeHTTPHandler("subtitle", subtitleHandler)))
 	http.Handle("/subtitles/", http.StripPrefix("/subtitles/", http.FileServer(http.Dir("subtitles"))))
 
-	logger.Info("HTTP routes configured")
+	// Static file serving
+	http.Handle("/", http.FileServer(http.Dir("static/")))
+
+	logger.Info("HTTP routes configured successfully")
 }
 
-func cleanupSessions() {
-	ticker := time.NewTicker(10 * time.Minute)
-	defer ticker.Stop()
+func corsHandler(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
-	for {
-		select {
-		case <-ticker.C:
-			sessionLock.Lock()
-			now := time.Now()
-			cleaned := 0
-			for ip, session := range sessions {
-				if now.Sub(session.LastActivity) > 30*time.Minute {
-					if session.Torrent != nil {
-						session.Torrent.Drop()
-					}
-					delete(sessions, ip)
-					cleaned++
-				}
-			}
-			sessionLock.Unlock()
-
-			if cleaned > 0 {
-				logger.Info("Cleaned up %d inactive sessions", cleaned)
-			}
-		case <-appContext.Done():
-			logger.Info("Session cleanup stopping...")
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
 			return
 		}
+
+		next(w, r)
 	}
 }
 
-func getClientIP(r *http.Request) string {
-	if ip := r.Header.Get("X-Forwarded-For"); ip != "" {
-		return strings.Split(ip, ",")[0]
-	}
-	ip, _, err := net.SplitHostPort(r.RemoteAddr)
-	if err != nil {
-		return r.RemoteAddr
-	}
-	return ip
-}
-
-func getSessionID(w http.ResponseWriter, r *http.Request) string {
-	cookie, err := r.Cookie("ts_session_id")
-	if err == nil && cookie.Value != "" {
-		return cookie.Value
-	}
-	// Generate new session ID
-	sessionID := uuid.New().String()
-	http.SetCookie(w, &http.Cookie{
-		Name:     "ts_session_id",
-		Value:    sessionID,
-		Path:     "/",
-		HttpOnly: true,
-		// Secure: true, // Uncomment if using HTTPS
-		MaxAge: 60 * 60 * 24, // 1 day
-	})
-	return sessionID
-}
-
-func getSession(w http.ResponseWriter, r *http.Request) *UserSession {
-	sessionID := getSessionID(w, r)
-	sessionLock.Lock()
-	defer sessionLock.Unlock()
-	if session, exists := sessions[sessionID]; exists {
-		session.LastActivity = time.Now()
-		return session
-	}
-	session := &UserSession{
-		LastActivity: time.Now(),
-		StatusMsg:    "Ready to stream",
-	}
-	sessions[sessionID] = session
-	logger.Debug("Created new session for sessionID: %s", sessionID)
-	return session
-}
-
-func indexHandler(w http.ResponseWriter, r *http.Request) {
+func apiStatusHandler(w http.ResponseWriter, r *http.Request) {
 	session := getSession(w, r)
-	data := struct {
-		Status      string
-		VideoURL    string
-		Magnet      string
-		Downloading bool
-		Progress    float64
-		IP          string
-		FileSize    int64
-		FileType    string
-		Subtitles   []Subtitle
-	}{
+	
+	status := StreamStatus{
 		Status:    session.StatusMsg,
-		Magnet:    "",
-		Progress:  0,
-		IP:        getClientIP(r),
 		Subtitles: session.Subtitles,
 	}
 
 	if session.Torrent != nil {
 		meta := session.Torrent.Metainfo()
 		magnet, _ := meta.MagnetV2()
-		data.Magnet = magnet.String()
-		data.Status = "Streaming: " + session.Torrent.Name()
+		status.Magnet = magnet.String()
+		status.Status = "Streaming: " + session.Torrent.Name()
 
 		if session.File != nil {
-			data.VideoURL = "/video?ip=" + getClientIP(r)
+			sessionID := getSessionID(w, r)
+			status.VideoURL = "/video?session=" + sessionID
 			completed := float64(session.File.BytesCompleted())
 			total := float64(session.File.Length())
-			data.Progress = (completed / total) * 100
-			data.Downloading = data.Progress < 100
-			data.FileSize = session.File.Length()
+			if total > 0 {
+				status.Progress = (completed / total) * 100
+			}
+			status.Downloading = status.Progress < 100
+			status.FileSize = session.File.Length()
 
 			fileName := session.File.Path()
 			if dotIndex := strings.LastIndex(fileName, "."); dotIndex != -1 {
-				data.FileType = fileName[dotIndex+1:]
+				status.FileType = fileName[dotIndex+1:]
 			} else {
-				data.FileType = "file"
+				status.FileType = "file"
 			}
 		}
 	}
 
-	if err := tmpl.Execute(w, data); err != nil {
-		logger.Error("Template execution error: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-	}
+	respondJSON(w, APIResponse{Success: true, Data: status})
 }
 
-func streamHandler(w http.ResponseWriter, r *http.Request) {
+func apiStreamHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		respondJSON(w, APIResponse{Success: false, Error: "Method not allowed"})
 		return
 	}
 
-	magnetLink := r.FormValue("magnet")
-	if magnetLink == "" {
-		logger.Warn("Empty magnet link received from IP: %s", getClientIP(r))
-		http.Error(w, "Magnet link is required", http.StatusBadRequest)
+	var requestData struct {
+		Magnet string `json:"magnet"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&requestData); err != nil {
+		respondJSON(w, APIResponse{Success: false, Error: "Invalid JSON"})
+		return
+	}
+
+	if requestData.Magnet == "" {
+		respondJSON(w, APIResponse{Success: false, Error: "Magnet link is required"})
+		return
+	}
+
+	// Validate magnet link format
+	if !strings.HasPrefix(requestData.Magnet, "magnet:?") {
+		respondJSON(w, APIResponse{Success: false, Error: "Invalid magnet link format"})
 		return
 	}
 
 	session := getSession(w, r)
-	clientIP := getClientIP(r)
+	sessionID := getSessionID(w, r)
 
 	// Truncate magnet link for logging
-	magnetPreview := magnetLink
+	magnetPreview := requestData.Magnet
 	if len(magnetPreview) > 50 {
 		magnetPreview = magnetPreview[:50] + "..."
 	}
-	logger.Info("Starting stream for magnet: %s (IP: %s)", magnetPreview, clientIP)
+	logger.Info("Starting stream for magnet: %s (Session: %s)", magnetPreview, sessionID)
 
 	go func() {
 		defer recoverFromPanic("torrent-processing")
-
-		sessionLock.Lock()
-		defer sessionLock.Unlock()
-
-		if session.Torrent != nil {
-			session.Torrent.Drop()
-			session.Torrent = nil
-			session.File = nil
-			session.Subtitles = nil
-		}
-
-		session.StatusMsg = "Connecting to peers..."
-
-		t, err := client.AddMagnet(magnetLink)
-		if err != nil {
-			session.StatusMsg = "Error: " + err.Error()
-			logger.Error("Error adding magnet: %v", err)
-			return
-		}
-
-		session.Torrent = t
-		session.StatusMsg = "Fetching torrent metadata..."
-		logger.Info("Torrent added, waiting for info...")
-
-		<-t.GotInfo()
-		logger.Info("Got torrent info: %s", t.Name())
-
-		session.StatusMsg = "Finding video file and subtitles..."
-		videoFound := false
-		subtitleCount := 0
-
-		for _, f := range t.Files() {
-			ext := strings.ToLower(filepath.Ext(f.Path()))
-
-			if session.File == nil && isVideoFile(ext) {
-				session.File = f
-				f.Download()
-				logger.Info("Found video file: %s (%.2f MB)", f.Path(), float64(f.Length())/1024/1024)
-				videoFound = true
-				continue
-			}
-
-			if isSubtitleFile(ext) {
-				f.Download()
-				lang := detectSubtitleLanguage(f.Path())
-				session.Subtitles = append(session.Subtitles, Subtitle{
-					Name: filepath.Base(f.Path()),
-					Path: "/subtitle?ip=" + clientIP + "&file=" + f.Path(),
-					Lang: lang,
-				})
-				logger.Debug("Found subtitle: %s", f.Path())
-				subtitleCount++
-			}
-		}
-
-		if videoFound {
-			session.StatusMsg = "Ready to play: " + session.Torrent.Name()
-			logger.Info("Stream ready for: %s (%d subtitles found)", session.Torrent.Name(), subtitleCount)
-		} else {
-			session.StatusMsg = "No video file found in torrent"
-			logger.Warn("No video file found in torrent: %s", session.Torrent.Name())
-		}
+		processTorrent(session, requestData.Magnet, sessionID)
 	}()
 
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	respondJSON(w, APIResponse{Success: true, Message: "Stream started"})
 }
 
-func videoHandler(w http.ResponseWriter, r *http.Request) {
-	ip := r.URL.Query().Get("ip")
-	if ip == "" {
-		ip = getClientIP(r)
-	}
-
-	sessionLock.Lock()
-	session, exists := sessions[getSessionID(w, r)]
-	sessionLock.Unlock()
-
-	if !exists || session.File == nil {
-		logger.Warn("Video request for non-existent session: %s", getSessionID(w, r))
-		http.Error(w, "No active file", http.StatusNotFound)
-		return
-	}
-
-	w.Header().Set("Content-Type", "video/mp4")
-	w.Header().Set("Accept-Ranges", "bytes")
-	w.Header().Set("Cache-Control", "no-cache")
-
-	reader := session.File.NewReader()
-	defer reader.Close()
-
-	logger.Debug("Serving video stream for IP: %s", ip)
-	http.ServeContent(w, r, "video.mp4", time.Now(), reader)
-}
-
-func progressHandler(w http.ResponseWriter, r *http.Request) {
-	ip := r.URL.Query().Get("ip")
-	if ip == "" {
-		ip = getClientIP(r)
-	}
-
-	sessionLock.Lock()
-	session, exists := sessions[getSessionID(w, r)]
-	sessionLock.Unlock()
+func apiProgressHandler(w http.ResponseWriter, r *http.Request) {
+	session := getSession(w, r)
 
 	progress := 0.0
-	if exists && session.File != nil {
+	status := "idle"
+
+	if session.File != nil {
 		completed := float64(session.File.BytesCompleted())
 		total := float64(session.File.Length())
 		if total > 0 {
 			progress = (completed / total) * 100
 		}
+
+		if progress >= 100 {
+			status = "completed"
+		} else if progress > 0 {
+			status = "downloading"
+		}
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(fmt.Sprintf(`{"progress": %.1f}`, progress)))
+	data := map[string]interface{}{
+		"progress": progress,
+		"status":   status,
+	}
+
+	respondJSON(w, APIResponse{Success: true, Data: data})
+}
+
+func apiUploadSubtitleHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		respondJSON(w, APIResponse{Success: false, Error: "Method not allowed"})
+		return
+	}
+
+	sessionID := getSessionID(w, r)
+	if sessionID == "" {
+		respondJSON(w, APIResponse{Success: false, Error: "Invalid session"})
+		return
+	}
+
+	file, header, err := r.FormFile("subtitle")
+	if err != nil {
+		logger.Error("Error reading subtitle file: %v", err)
+		respondJSON(w, APIResponse{Success: false, Error: "Error reading subtitle file"})
+		return
+	}
+	defer file.Close()
+
+	// Validate file extension
+	ext := strings.ToLower(filepath.Ext(header.Filename))
+	if !isSubtitleFile(ext) {
+		logger.Warn("Invalid subtitle file uploaded: %s", header.Filename)
+		respondJSON(w, APIResponse{Success: false, Error: "Invalid subtitle file format"})
+		return
+	}
+
+	// Validate file size (max 5MB)
+	if header.Size > 5*1024*1024 {
+		logger.Warn("Subtitle file too large: %s (%d bytes)", header.Filename, header.Size)
+		respondJSON(w, APIResponse{Success: false, Error: "File too large (max 5MB)"})
+		return
+	}
+
+	// Create safe filename
+	safeFilename := strings.ReplaceAll(header.Filename, "..", "")
+	safeFilename = strings.ReplaceAll(safeFilename, "/", "_")
+	safeFilename = strings.ReplaceAll(safeFilename, "\\", "_")
+
+	path := filepath.Join("subtitles", sessionID+"_"+safeFilename)
+
+	dst, err := os.Create(path)
+	if err != nil {
+		logger.Error("Error creating subtitle file %s: %v", path, err)
+		respondJSON(w, APIResponse{Success: false, Error: "Error saving file"})
+		return
+	}
+	defer dst.Close()
+
+	if _, err := io.Copy(dst, file); err != nil {
+		logger.Error("Error writing subtitle file %s: %v", path, err)
+		respondJSON(w, APIResponse{Success: false, Error: "Error saving file"})
+		return
+	}
+
+	sessionLock.Lock()
+	defer sessionLock.Unlock()
+
+	if session, exists := sessions[sessionID]; exists {
+		lang := detectSubtitleLanguage(header.Filename)
+		session.Subtitles = append(session.Subtitles, Subtitle{
+			Name: header.Filename,
+			Path: "/subtitles/" + sessionID + "_" + safeFilename,
+			Lang: lang,
+		})
+		logger.Info("Subtitle uploaded successfully: %s (Session: %s)", header.Filename, sessionID)
+	}
+
+	respondJSON(w, APIResponse{Success: true, Message: "Subtitle uploaded successfully"})
+}
+
+func processTorrent(session *UserSession, magnetLink, sessionID string) {
+	sessionLock.Lock()
+	defer sessionLock.Unlock()
+
+	// Clean up existing torrent if any
+	if session.Torrent != nil {
+		session.Torrent.Drop()
+		session.Torrent = nil
+		session.File = nil
+		session.Subtitles = nil
+	}
+
+	session.StatusMsg = "Connecting to peers..."
+
+	t, err := client.AddMagnet(magnetLink)
+	if err != nil {
+		session.StatusMsg = "Error: " + err.Error()
+		logger.Error("Error adding magnet: %v", err)
+		return
+	}
+
+	session.Torrent = t
+	session.StatusMsg = "Fetching torrent metadata..."
+	logger.Info("Torrent added, waiting for info...")
+
+	// Wait for torrent info with timeout
+	select {
+	case <-t.GotInfo():
+		logger.Info("Got torrent info: %s", t.Name())
+	case <-time.After(30 * time.Second):
+		session.StatusMsg = "Timeout waiting for torrent metadata"
+		logger.Error("Timeout waiting for torrent info")
+		return
+	}
+
+	session.StatusMsg = "Finding video file and subtitles..."
+	videoFound := false
+	subtitleCount := 0
+
+	for _, f := range t.Files() {
+		ext := strings.ToLower(filepath.Ext(f.Path()))
+
+		if session.File == nil && isVideoFile(ext) {
+			session.File = f
+			f.Download()
+			logger.Info("Found video file: %s (%.2f MB)", f.Path(), float64(f.Length())/1024/1024)
+			videoFound = true
+			continue
+		}
+
+		if isSubtitleFile(ext) {
+			f.Download()
+			lang := detectSubtitleLanguage(f.Path())
+			session.Subtitles = append(session.Subtitles, Subtitle{
+				Name: filepath.Base(f.Path()),
+				Path: "/subtitle?session=" + sessionID + "&file=" + f.Path(),
+				Lang: lang,
+			})
+			logger.Debug("Found subtitle: %s", f.Path())
+			subtitleCount++
+		}
+	}
+
+	if videoFound {
+		session.StatusMsg = "Ready to play: " + session.Torrent.Name()
+		logger.Info("Stream ready for: %s (%d subtitles found)", session.Torrent.Name(), subtitleCount)
+	} else {
+		session.StatusMsg = "No video file found in torrent"
+		logger.Warn("No video file found in torrent: %s", session.Torrent.Name())
+	}
+}
+
+func videoHandler(w http.ResponseWriter, r *http.Request) {
+	sessionID := r.URL.Query().Get("session")
+	if sessionID == "" {
+		// Fallback to cookie-based session
+		sessionID = getSessionID(w, r)
+	}
+
+	logger.Debug("Video request for session: %s", sessionID)
+
+	sessionLock.Lock()
+	session, exists := sessions[sessionID]
+	sessionLock.Unlock()
+
+	if !exists {
+		logger.Warn("Video request for non-existent session: %s", sessionID)
+		http.Error(w, "Session not found", http.StatusNotFound)
+		return
+	}
+
+	if session.File == nil {
+		logger.Warn("Video request but no file available for session: %s", sessionID)
+		http.Error(w, "No active file", http.StatusNotFound)
+		return
+	}
+
+	// Update session activity
+	session.LastActivity = time.Now()
+
+	// Set appropriate headers for video streaming
+	w.Header().Set("Content-Type", "video/mp4")
+	w.Header().Set("Accept-Ranges", "bytes")
+	w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+	w.Header().Set("Pragma", "no-cache")
+	w.Header().Set("Expires", "0")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Range")
+
+	// Handle preflight requests
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	// Create a new reader for this request
+	reader := session.File.NewReader()
+	defer func() {
+		if err := reader.Close(); err != nil {
+			logger.Error("Error closing video reader: %v", err)
+		}
+	}()
+
+	// Get file info
+	fileLength := session.File.Length()
+	fileName := session.File.Path()
+	
+	logger.Debug("Serving video stream for session: %s, file: %s, size: %d bytes", sessionID, fileName, fileLength)
+
+	// Use ServeContent for proper range request handling
+	http.ServeContent(w, r, "video.mp4", time.Now(), reader)
 }
 
 func subtitleHandler(w http.ResponseWriter, r *http.Request) {
-	ip := r.URL.Query().Get("ip")
+	sessionID := r.URL.Query().Get("session")
 	fileName := r.URL.Query().Get("file")
 
-	if ip == "" || fileName == "" {
-		logger.Warn("Invalid subtitle request - IP: %s, File: %s", ip, fileName)
+	if sessionID == "" || fileName == "" {
+		logger.Warn("Invalid subtitle request - Session: %s, File: %s", sessionID, fileName)
 		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
 	sessionLock.Lock()
-	session, exists := sessions[getSessionID(w, r)]
+	session, exists := sessions[sessionID]
 	sessionLock.Unlock()
 
 	if !exists || session.Torrent == nil {
-		logger.Warn("Subtitle request for non-existent session: %s", getSessionID(w, r))
+		logger.Warn("Subtitle request for non-existent session: %s", sessionID)
 		http.Error(w, "Session not found", http.StatusNotFound)
 		return
 	}
@@ -515,7 +582,8 @@ func subtitleHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ext := strings.ToLower(filepath.Ext(fileName))
-	w.Header().Set("Content-Type", "text/vtt")
+	w.Header().Set("Content-Type", "text/vtt; charset=utf-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	if ext != ".vtt" {
 		reader := subFile.NewReader()
@@ -559,123 +627,110 @@ func subtitleHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Debug("Served VTT subtitle: %s", fileName)
 }
 
-func uploadSubtitleHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "POST" {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
+// Helper functions
+func getClientIP(r *http.Request) string {
+	if ip := r.Header.Get("X-Forwarded-For"); ip != "" {
+		return strings.Split(ip, ",")[0]
 	}
-
-	ip := r.FormValue("ip")
-	if ip == "" {
-		logger.Warn("Upload subtitle request without IP")
-		http.Error(w, "Invalid session", http.StatusBadRequest)
-		return
-	}
-
-	file, header, err := r.FormFile("subtitle")
+	ip, _, err := net.SplitHostPort(r.RemoteAddr)
 	if err != nil {
-		logger.Error("Error reading subtitle file: %v", err)
-		http.Error(w, "Error reading subtitle file", http.StatusBadRequest)
-		return
+		return r.RemoteAddr
 	}
-	defer file.Close()
+	return ip
+}
 
-	// Validate file extension
-	ext := strings.ToLower(filepath.Ext(header.Filename))
-	if !isSubtitleFile(ext) {
-		logger.Warn("Invalid subtitle file uploaded: %s", header.Filename)
-		http.Error(w, "Invalid subtitle file format", http.StatusBadRequest)
-		return
+func getSessionID(w http.ResponseWriter, r *http.Request) string {
+	cookie, err := r.Cookie("ts_session_id")
+	if err == nil && cookie.Value != "" {
+		return cookie.Value
 	}
 
-	if err := os.MkdirAll("subtitles", 0755); err != nil {
-		logger.Error("Error creating subtitles directory: %v", err)
-		http.Error(w, "Error creating directory", http.StatusInternalServerError)
-		return
-	}
+	// Generate new session ID
+	sessionID := uuid.New().String()
+	http.SetCookie(w, &http.Cookie{
+		Name:     "ts_session_id",
+		Value:    sessionID,
+		Path:     "/",
+		HttpOnly: true,
+		MaxAge:   60 * 60 * 24, // 1 day
+	})
+	return sessionID
+}
 
-	// Create safe filename
-	safeFilename := strings.ReplaceAll(header.Filename, "..", "")
-	path := filepath.Join("subtitles", ip+"_"+safeFilename)
-
-	dst, err := os.Create(path)
-	if err != nil {
-		logger.Error("Error creating subtitle file %s: %v", path, err)
-		http.Error(w, "Error saving file", http.StatusInternalServerError)
-		return
-	}
-	defer dst.Close()
-
-	if _, err := io.Copy(dst, file); err != nil {
-		logger.Error("Error writing subtitle file %s: %v", path, err)
-		http.Error(w, "Error saving file", http.StatusInternalServerError)
-		return
-	}
-
+func getSession(w http.ResponseWriter, r *http.Request) *UserSession {
+	sessionID := getSessionID(w, r)
 	sessionLock.Lock()
 	defer sessionLock.Unlock()
 
-	if session, exists := sessions[getSessionID(w, r)]; exists {
-		lang := detectSubtitleLanguage(header.Filename)
-		session.Subtitles = append(session.Subtitles, Subtitle{
-			Name: header.Filename,
-			Path: "/subtitles/" + ip + "_" + safeFilename,
-			Lang: lang,
-		})
-		logger.Info("Subtitle uploaded successfully: %s (IP: %s)", header.Filename, ip)
+	if session, exists := sessions[sessionID]; exists {
+		session.LastActivity = time.Now()
+		return session
 	}
 
+	session := &UserSession{
+		LastActivity: time.Now(),
+		StatusMsg:    "Ready to stream",
+	}
+	sessions[sessionID] = session
+	logger.Debug("Created new session: %s", sessionID)
+	return session
+}
+
+func respondJSON(w http.ResponseWriter, response APIResponse) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(`{"success": true}`))
+	json.NewEncoder(w).Encode(response)
+}
+
+func cleanupSessions() {
+	ticker := time.NewTicker(10 * time.Minute)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ticker.C:
+			sessionLock.Lock()
+			now := time.Now()
+			cleaned := 0
+			for sessionID, session := range sessions {
+				if now.Sub(session.LastActivity) > 30*time.Minute {
+					if session.Torrent != nil {
+						session.Torrent.Drop()
+					}
+					delete(sessions, sessionID)
+					cleaned++
+				}
+			}
+			sessionLock.Unlock()
+
+			if cleaned > 0 {
+				logger.Info("Cleaned up %d inactive sessions", cleaned)
+			}
+		case <-appContext.Done():
+			logger.Info("Session cleanup stopping...")
+			return
+		}
+	}
 }
 
 // Utility functions
-func formatFileSize(bytes int64) string {
-	const unit = 1024
-	if bytes < unit {
-		return fmt.Sprintf("%d B", bytes)
-	}
-	div, exp := int64(unit), 0
-	for n := bytes / unit; n >= unit; n /= unit {
-		div *= unit
-		exp++
-	}
-	return fmt.Sprintf("%.1f %cB", float64(bytes)/float64(div), "KMGTPE"[exp])
-}
-
-func getFileIcon(fileType string) string {
-	switch strings.ToLower(fileType) {
-	case "mp4", "mkv", "avi", "mov", "webm":
-		return "fas fa-file-video"
-	case "mp3", "wav", "flac", "aac":
-		return "fas fa-file-audio"
-	case "jpg", "jpeg", "png", "gif", "webp":
-		return "fas fa-file-image"
-	case "pdf":
-		return "fas fa-file-pdf"
-	case "zip", "rar", "7z", "tar", "gz":
-		return "fas fa-file-archive"
-	default:
-		return "fas fa-file"
-	}
-}
-
 func isVideoFile(ext string) bool {
-	switch ext {
-	case ".mp4", ".mkv", ".avi", ".mov", ".webm", ".flv", ".wmv":
-		return true
-	default:
-		return false
+	videoExts := []string{".mp4", ".mkv", ".avi", ".mov", ".webm", ".flv", ".wmv", ".m4v", ".3gp"}
+	for _, validExt := range videoExts {
+		if ext == validExt {
+			return true
+		}
 	}
+	return false
 }
 
 func isSubtitleFile(ext string) bool {
-	switch ext {
-	case ".srt", ".vtt", ".ass", ".ssa", ".sub":
-		return true
-	default:
-		return false
+	subtitleExts := []string{".srt", ".vtt", ".ass", ".ssa", ".sub", ".sbv"}
+	for _, validExt := range subtitleExts {
+		if ext == validExt {
+			return true
+		}
 	}
+	return false
 }
 
 func detectSubtitleLanguage(filename string) string {
@@ -715,7 +770,7 @@ func safeHTTPHandler(name string, handler http.HandlerFunc) http.HandlerFunc {
 		defer func() {
 			if rec := recover(); rec != nil {
 				logger.Error("PANIC in HTTP handler %s: %v", name, rec)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+				respondJSON(w, APIResponse{Success: false, Error: "Internal Server Error"})
 			}
 		}()
 
@@ -732,7 +787,6 @@ func startHealthMonitor() {
 	for {
 		select {
 		case <-ticker.C:
-			// Simple health check
 			sessionLock.Lock()
 			sessionCount := len(sessions)
 			sessionLock.Unlock()
@@ -747,8 +801,6 @@ func startHealthMonitor() {
 }
 
 func waitForShutdown() {
-	// Simple shutdown signal handling
-	// In production, you'd want proper signal handling
 	select {
 	case <-appContext.Done():
 		logger.Info("Application context cancelled")
