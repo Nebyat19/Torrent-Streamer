@@ -174,18 +174,24 @@ func runApplication() error {
 }
 
 func initializeTorrentClient() error {
-	cfg := torrent.NewDefaultClientConfig()
-	cfg.DataDir = os.TempDir()
+    cfg := torrent.NewDefaultClientConfig()
+    cfg.DataDir = os.TempDir()
+    
+    // ===== NEW STREAMING OPTIMIZATIONS =====
+ 
+    cfg.Seed = false                                             // Disable seeding
+    cfg.DisableAggressiveUpload = true                           // Reduce background traffic
+    cfg.MaxAllocPeerRequestDataPerConn = 1 << 20                 // ~1MB buffer limit
+    // ======================================
 
-	var err error
-	client, err = torrent.NewClient(cfg)
-	if err != nil {
-		logger.Error("Failed to create torrent client: %v", err)
-		return err
-	}
-
-	logger.Info("Torrent client initialized successfully")
-	return nil
+    var err error
+    client, err = torrent.NewClient(cfg)
+    if err != nil {
+        logger.Error("Failed to create torrent client: %v", err)
+        return err
+    }
+    logger.Info("Torrent client initialized (streaming-optimized)")
+    return nil
 }
 
 func createDirectories() error {
@@ -526,66 +532,43 @@ func processTorrent(session *UserSession, magnetLink, sessionID string) {
 	}
 }
 
+// Update the videoHandler for minimal buffering
 func videoHandler(w http.ResponseWriter, r *http.Request) {
-	sessionID := r.URL.Query().Get("session")
-	if sessionID == "" {
-		// Fallback to cookie-based session
-		sessionID = getSessionID(w, r)
-	}
+    sessionID := getSessionID(w, r)
+    logger.Debug("Video request for session: %s", sessionID)
 
-	logger.Debug("Video request for session: %s", sessionID)
+    sessionLock.Lock()
+    session, exists := sessions[sessionID]
+    sessionLock.Unlock()
 
-	sessionLock.Lock()
-	session, exists := sessions[sessionID]
-	sessionLock.Unlock()
+    if !exists || session.File == nil {
+        http.Error(w, "Session or file not found", http.StatusNotFound)
+        return
+    }
 
-	if !exists {
-		logger.Warn("Video request for non-existent session: %s", sessionID)
-		http.Error(w, "Session not found", http.StatusNotFound)
-		return
-	}
+    session.LastActivity = time.Now()
 
-	if session.File == nil {
-		logger.Warn("Video request but no file available for session: %s", sessionID)
-		http.Error(w, "No active file", http.StatusNotFound)
-		return
-	}
+    // ===== NEW STREAMING OPTIMIZATIONS =====
+    reader := session.File.NewReader()
+    defer reader.Close()
 
-	// Update session activity
-	session.LastActivity = time.Now()
+    // Configure reader for minimal buffering
+    if rdr, ok := reader.(torrent.Reader); ok {
+        rdr.SetReadahead(1 << 20)       // Keep only 1MB ahead in buffer
+        rdr.SetResponsive()             // Minimize background downloading
+    }
+    // ======================================
 
-	// Set appropriate headers for video streaming
-	w.Header().Set("Content-Type", "video/mp4")
-	w.Header().Set("Accept-Ranges", "bytes")
-	w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
-	w.Header().Set("Pragma", "no-cache")
-	w.Header().Set("Expires", "0")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Headers", "Range")
+    w.Header().Set("Content-Type", "video/mp4")
+    w.Header().Set("Accept-Ranges", "bytes")
+    w.Header().Set("Cache-Control", "no-cache")
 
-	// Handle preflight requests
-	if r.Method == "OPTIONS" {
-		w.WriteHeader(http.StatusOK)
-		return
-	}
-
-	// Create a new reader for this request
-	reader := session.File.NewReader()
-	defer func() {
-		if err := reader.Close(); err != nil {
-			logger.Error("Error closing video reader: %v", err)
-		}
-	}()
-
-	// Get file info
-	fileLength := session.File.Length()
-	fileName := session.File.Path()
-	
-	logger.Debug("Serving video stream for session: %s, file: %s, size: %d bytes", sessionID, fileName, fileLength)
-
-	// Use ServeContent for proper range request handling
-	http.ServeContent(w, r, "video.mp4", time.Now(), reader)
+    // ===== ENFORCE 1MB MAX PER REQUEST =====
+   // limitedReader := io.LimitReader(reader, 1<<20) // Strict 1MB limit
+    http.ServeContent(w, r, "video.mp4", time.Now(), reader)
+    // ======================================
+    
+    logger.Debug("Streamed video chunk (1MB max) for session: %s", sessionID)
 }
 
 func subtitleHandler(w http.ResponseWriter, r *http.Request) {

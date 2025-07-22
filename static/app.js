@@ -15,7 +15,7 @@ class TorrentStreamer {
         genre: "",
         quality: "",
         minimum_rating: "0",
-        sort_by: "date_added",
+        sort_by: "download_count",
         order_by: "desc",
       }
       this.gridView = "grid"
@@ -424,7 +424,7 @@ class TorrentStreamer {
         genre: "",
         quality: "",
         minimum_rating: "0",
-        sort_by: "date_added",
+        sort_by: "download_count",
         order_by: "desc",
       }
   
@@ -565,6 +565,7 @@ class TorrentStreamer {
        
         let magneticLink =`magnet:?xt=urn:btih:${hash}&dn=${title}&tr=http://track.one:1234/announce&tr=udp://track.two:80`
       try {
+        //this.resetSession()
         const response = await fetch(`${this.apiBase}/stream`, {
           method: "POST",
           headers: {
@@ -675,9 +676,9 @@ class TorrentStreamer {
         if (result.success) {
           const data = result.data
   
-          if (this.shouldUpdateUI(data)) {
+         // if (this.shouldUpdateUI(data)) {
             this.updateUI(data)
-          }
+         // }
         }
       } catch (error) {
         console.error("Status update error:", error)
@@ -760,6 +761,8 @@ class TorrentStreamer {
           }
   
           const handleError = (e) => {
+            let statusText = document.getElementById("statusText")
+            statusText.textContent=e.target.error?.message || "Error loading video"
             console.error("❌ Video error:", e.target.error)
             this.showNotification("Error loading video", "error")
             video.removeEventListener("error", handleError)
