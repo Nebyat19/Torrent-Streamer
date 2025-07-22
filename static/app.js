@@ -400,11 +400,13 @@ class TorrentStreamer {
         // Update the main search and switch to browse section
         //document.getElementById("movieSearch").value = query
         this.currentFilters.query_term = query
-        //this.showSection("browse")
+        //this.showSection("moviesSection")
+        document.getElementById('moviesSection').scrollIntoView({ 
+            behavior: 'smooth' 
+          });
         this.loadMovies(1)
   
-        // Clear header search
-        searchInput.value = ""
+      
       }
     }
   
