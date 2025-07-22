@@ -151,13 +151,13 @@ func (l *Logger) log(level LogLevel, format string, args ...interface{}) {
 
 	message := fmt.Sprintf(format, args...)
 	logEntry := fmt.Sprintf("[%s] [%s] [%s:%d] %s", timestamp, levelName, file, line, message)
-
-	if l.logger != nil {
-		l.logger.Println(logEntry)
-	} else {
-		// Fallback to standard log if logger is not initialized
-		log.Println(logEntry)
-	}
+    fmt.Println(logEntry)
+	// if l.logger != nil {
+	// 	l.logger.Println(logEntry)
+	// } else {
+	// 	// Fallback to standard log if logger is not initialized
+	// 	log.Println(logEntry)
+	// }
 }
 
 // Logging methods

@@ -267,6 +267,7 @@ body {
 /* Hero Banner */
 .hero-banner {
   position: relative;
+ 
   height: 70vh;
   min-height: 600px;
   display: flex;
@@ -1650,9 +1651,19 @@ body {
 }
 
 @media (max-width: 480px) {
+  .hero-banner{
+    margin-top: 5rem;
+  }
+  .manual-hero{
+    margin-top: 5rem;
+  }
+  .player-hero{
+    margin-top: 5rem;
+  }
   .hero-title {
     font-size: 2rem;
   }
+
 
   .hero-description {
     font-size: 1rem;
