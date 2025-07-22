@@ -705,35 +705,50 @@ func respondJSON(w http.ResponseWriter, response APIResponse) {
 	json.NewEncoder(w).Encode(response)
 }
 
+
 func cleanupSessions() {
-	ticker := time.NewTicker(10 * time.Minute)
-	defer ticker.Stop()
+    defer recoverFromPanic("session-cleanup") // Add recovery at top level
 
-	for {
-		select {
-		case <-ticker.C:
-			sessionLock.Lock()
-			now := time.Now()
-			cleaned := 0
-			for sessionID, session := range sessions {
-				if now.Sub(session.LastActivity) > 30*time.Minute {
-					if session.Torrent != nil {
-						session.Torrent.Drop()
-					}
-					delete(sessions, sessionID)
-					cleaned++
-				}
-			}
-			sessionLock.Unlock()
+    ticker := time.NewTicker(10 * time.Minute)
+    defer ticker.Stop()
 
-			if cleaned > 0 {
-				logger.Info("Cleaned up %d inactive sessions", cleaned)
-			}
-		case <-appContext.Done():
-			logger.Info("Session cleanup stopping...")
-			return
-		}
-	}
+    for {
+        select {
+        case <-ticker.C:
+            cleanupSessionBatch()
+        case <-appContext.Done():
+            logger.Info("Session cleanup stopping...")
+            return
+        }
+    }
+}
+
+func cleanupSessionBatch() {
+    sessionLock.Lock()
+    defer sessionLock.Unlock()
+
+    now := time.Now()
+    cleaned := 0
+
+    for sessionID, session := range sessions {
+        select {
+        case <-appContext.Done():
+            // Abort if context cancelled during cleanup
+            return
+        default:
+            if now.Sub(session.LastActivity) > 30*time.Minute {
+                if session.Torrent != nil &&  session.Torrent.Closed() !=nil {
+                    session.Torrent.Drop()
+                }
+                delete(sessions, sessionID)
+                cleaned++
+            }
+        }
+    }
+
+    if cleaned > 0 {
+        logger.Info("Cleaned up %d inactive sessions", cleaned)
+    }
 }
 
 // Utility functions

@@ -670,15 +670,16 @@ class TorrentStreamer {
   
     async updateStatus() {
       try {
+       
         const response = await fetch(`${this.apiBase}/status`)
         const result = await response.json()
   
         if (result.success) {
           const data = result.data
   
-         // if (this.shouldUpdateUI(data)) {
+         if (this.shouldUpdateUI(data)) {
             this.updateUI(data)
-         // }
+          }
         }
       } catch (error) {
         console.error("Status update error:", error)
@@ -687,21 +688,23 @@ class TorrentStreamer {
   
     shouldUpdateUI(newData) {
       const currentStatus = document.getElementById("statusText").textContent
-      if (currentStatus !== newData.status) {
+      if (currentStatus != newData.status) {
+          console.log({currentStatus, newStatus:newData.status })
         return true
       }
   
-      if (newData.videoUrl && !this.currentVideoUrl) {
-        this.currentVideoUrl = newData.videoUrl
-        return true
-      }
+    //   if (newData.videoUrl && !this.currentVideoUrl) {
+    //     this.currentVideoUrl = newData.videoUrl
+    //     return true
+    //   }
   
-      const currentProgress = Number.parseFloat(document.getElementById("progressBar")?.style.width) || 0
-      if (Math.abs(currentProgress - newData.progress) > 1) {
-        return true
-      }
+    //   const currentProgress = Number.parseFloat(document.getElementById("progressBar")?.style.width) || 0
+    //   if (Math.abs(currentProgress - newData.progress) > 1) {
+    //     return true
+    //   }
   
-      if (JSON.stringify(newData.subtitles) !== JSON.stringify(this.currentSubtitles)) {
+      if (newData.subtitles!=null && currentSubtitles.length!=0 && JSON.stringify(newData.subtitles) != JSON.stringify(this.currentSubtitles)) {
+        console.log(newData.subtitles, "newStatus:newData.status", this.currentSubtitles )
         return true
       }
   
@@ -709,6 +712,7 @@ class TorrentStreamer {
     }
   
     updateUI(data) {
+       
       const statusText = document.getElementById("statusText")
       const statusDot = document.querySelector(".status-dot")
   
@@ -745,7 +749,7 @@ class TorrentStreamer {
         const currentVideoUrl = video.currentSrc || video.src || ""
         const newVideoUrl = data.videoUrl
   
-        if (currentVideoUrl !== newVideoUrl && !currentVideoUrl.includes(newVideoUrl)) {
+        //if (currentVideoUrl !== newVideoUrl && !currentVideoUrl.includes(newVideoUrl)) {
           console.log("🎥 Updating video source:", { from: currentVideoUrl, to: newVideoUrl })
   
           video.src = newVideoUrl
@@ -771,7 +775,7 @@ class TorrentStreamer {
           video.addEventListener("loadstart", handleLoadStart)
           video.addEventListener("canplay", handleCanPlay)
           video.addEventListener("error", handleError)
-        }
+      //  }
   
         this.updateSubtitles(data.subtitles || [])
       } else {
@@ -884,13 +888,13 @@ class TorrentStreamer {
     }
   
     startProgressPolling() {
-      if (this.progressInterval) {
-        clearInterval(this.progressInterval)
-      }
+    //   if (this.progressInterval) {
+    //     clearInterval(this.progressInterval)
+    //   }
   
-      this.progressInterval = setInterval(() => {
-        this.updateProgress()
-      }, 1000)
+    //   this.progressInterval = setInterval(() => {
+    //     this.updateProgress()
+    //   }, 1000)
     }
   
     stopProgressPolling() {
