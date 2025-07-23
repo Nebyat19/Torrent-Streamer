@@ -525,14 +525,16 @@ class TorrentStreamer {
 
         document.getElementById("modalSummary").textContent =
             movie.summary || movie.description_full || "No description available."
-
+            
         const torrentsHtml = movie.torrents
             .sort((a, b) => {
                 const qualityOrder = { "2160p": 4, "1080p": 3, "720p": 2, "480p": 1 }
                 return (qualityOrder[b.quality] || 0) - (qualityOrder[a.quality] || 0)
             })
             .map(
-                (torrent) => `
+                (torrent) => {
+                    let magneticLink = `magnet:?xt=urn:btih:${torrent.hash}&dn=${movie.title.replace(/'/g, "\\'")}&tr=http://track.one:1234/announce&tr=udp://track.two:80`
+                    return `
         <div class="torrent-option">
           <div class="torrent-info">
             
@@ -544,6 +546,7 @@ class TorrentStreamer {
               </div>
             </div>
           </div>
+          <button  onclick="(()=>{navigator.clipboard.writeText('${magneticLink}');  alert('Magnet Link Copied!');})()"> ⎘ </button>
           <button class="stream-btn" onclick="streamMovie(${movie.id}, '${torrent.hash}', '${torrent.quality}', '${movie.title.replace(/'/g, "\\'")}')">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M8 5v14l11-7z"/>
@@ -551,7 +554,8 @@ class TorrentStreamer {
             Stream ${torrent.quality}
           </button>
         </div>
-      `,
+      `
+    }
             )
             .join("")
 
