@@ -1,0 +1,14 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: torrent-streamer
+spec:
+  template:
+    spec:
+      containers:
+      - image: gcr.io/torrentstreamer/torrent-streamer
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
