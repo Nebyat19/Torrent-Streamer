@@ -129,10 +129,15 @@ func runApplication() error {
 	if err := createDirectories(); err != nil {
 		return fmt.Errorf("failed to create directories: %v", err)
 	}
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
 
 	// Start HTTP server
 	server := &http.Server{
-		Addr:         ":8080",
+		Addr:         ":"+port,
 		ReadTimeout:  30 * time.Second,
 		WriteTimeout: 30 * time.Second,
 		IdleTimeout:  60 * time.Second,
