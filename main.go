@@ -133,7 +133,10 @@ func runApplication() error {
 	if port == "" {
 		port = "8080"
 	}
-
+	// Add readiness probe
+	http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
 
 	// Start HTTP server
 	server := &http.Server{
