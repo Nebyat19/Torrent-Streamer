@@ -1,7 +1,7 @@
 class TorrentStreamer {
     constructor() {
         this.apiBase = "/api"
-        this.ytsApiBase = "https://yts.mx/api/v2"
+        this.ytsApiBase = "https://yts.lt/api/v2"
         this.currentSubtitles = []
         this.progressInterval = null
         this.statusInterval = null
